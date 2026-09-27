@@ -143,8 +143,8 @@ async function loadArea(){
   try{
     await boundary.load();
     const q=boundary.createQuery();
-    q.where="NAME = 'Jeffersontown'";
-    q.returnGeometry=true;q.outFields=['NAME'];
+    q.where="CITY_NAME = 'Jeffersontown'";
+    q.returnGeometry=true;q.outFields=["CITY_NAME"];
     const r=await boundary.queryFeatures(q);
     if(!r.features.length)throw Error('No boundary');
     await view.goTo(r.features[0].geometry.expand(1.12));
