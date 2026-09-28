@@ -6,403 +6,98 @@
   <title>Vote4Bowdy | Manager Map</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
   <style>
     :root{
-      --bg:#080c14;
-      --panel:#101827;
-      --panel2:#152137;
-      --line:#293c5b;
-      --text:#f5f7fb;
-      --muted:#a4b1c6;
-      --green:#36df91;
-      --red:#ff6575;
-      --amber:#ffc44d;
-      --blue:#67b7ff;
+      --bg:#080c14;--panel:#101827;--panel2:#152137;--line:#293c5b;
+      --text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;
+      --amber:#ffc44d;--blue:#67b7ff;--purple:#bd87ff
     }
-
-    *{
-      box-sizing:border-box;
-    }
-
-    body{
-      margin:0;
-      min-height:100vh;
-      background:var(--bg);
-      color:var(--text);
-      font:14px system-ui,sans-serif;
-    }
-
-    button,input{
-      font:inherit;
-    }
-
-    button{
-      border:0;
-      border-radius:8px;
-      padding:10px 12px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    .login-page{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:20px;
-    }
-
-    .login-card{
-      width:min(420px,100%);
-      padding:24px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      background:var(--panel);
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-    }
-
-    .brand{
-      font-size:23px;
-      font-weight:900;
-    }
-
-    .brand small{
-      display:block;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:11px;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-    }
-
-    .login-card h1{
-      margin:20px 0 6px;
-      font-size:20px;
-    }
-
-    .muted{
-      color:var(--muted);
-      line-height:1.45;
-    }
-
-    label{
-      display:block;
-      margin-top:14px;
-      font-size:12px;
-      font-weight:800;
-    }
-
-    input{
-      width:100%;
-      margin-top:6px;
-      padding:11px;
-      border:1px solid #395170;
-      border-radius:8px;
-      outline:none;
-      background:#0c1524;
-      color:#fff;
-    }
-
-    input:focus{
-      border-color:var(--blue);
-    }
-
-    .login-button{
-      width:100%;
-      margin-top:18px;
-      background:var(--green);
-      color:#062514;
-    }
-
-    .message{
-      min-height:20px;
-      margin:14px 0 0;
-      color:#ffd2d7;
-      font-size:12px;
-    }
-
-    .app{
-      height:100vh;
-      display:grid;
-      grid-template-rows:62px 1fr;
-    }
-
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:0 18px;
-      background:#0b101b;
-      border-bottom:1px solid var(--line);
-    }
-
-    .header-left{
-      min-width:0;
-    }
-
-    .header-title{
-      font-size:18px;
-      font-weight:900;
-    }
-
-    .header-subtitle{
-      margin-top:2px;
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .header-actions{
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    .email{
-      max-width:190px;
-      overflow:hidden;
-      color:var(--muted);
-      font-size:12px;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .refresh{
-      background:#304561;
-      color:#fff;
-    }
-
-    .logout{
-      background:#4a2734;
-      color:#ffdee2;
-    }
-
-    main{
-      display:grid;
-      grid-template-columns:330px 1fr;
-      min-height:0;
-    }
-
-    aside{
-      overflow:auto;
-      padding:16px;
-      background:var(--panel);
-      border-right:1px solid var(--line);
-    }
-
-    #map{
-      width:100%;
-      height:100%;
-      background:#15233a;
-    }
-
-    .eyebrow{
-      color:#91a4c2;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-    }
-
-    .card{
-      margin:10px 0;
-      padding:12px;
-      border:1px solid #2b3f60;
-      border-radius:11px;
-      background:var(--panel2);
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .stat{
-      padding:10px;
-      border-radius:9px;
-      background:#0c1524;
-    }
-
-    .stat b{
-      display:block;
-      font-size:18px;
-    }
-
-    .stat span{
-      color:var(--muted);
-      font-size:10px;
-    }
-
-    .point-list{
-      margin-top:10px;
-    }
-
-    .point-row{
-      margin-top:8px;
-      padding:10px;
-      border:1px solid #2a3d5d;
-      border-radius:9px;
-      background:#0c1524;
-      cursor:pointer;
-    }
-
-    .point-row:hover{
-      border-color:#5c89bd;
-    }
-
-    .point-row.active{
-      border-color:var(--amber);
-      box-shadow:0 0 0 1px var(--amber);
-    }
-
-    .point-row b{
-      display:block;
-      font-size:12px;
-    }
-
-    .point-row small{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.35;
-    }
-
-    .point-row .delete{
-      width:100%;
-      margin-top:8px;
-      padding:8px;
-      background:#7a2633;
-      color:#fff;
-      font-size:11px;
-    }
-
-    .empty{
-      padding:15px 0;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip{
-      background:#142038;
-      color:#fff;
-    }
-
-    .popup-title{
-      margin-bottom:6px;
-      font-size:13px;
-      font-weight:900;
-    }
-
-    .popup-meta{
-      color:#cad5e6;
-      font-size:11px;
-      line-height:1.5;
-    }
-
-    .popup-delete{
-      width:100%;
-      margin-top:9px;
-      border-radius:6px;
-      padding:8px;
-      background:#b62c3f;
-      color:#fff;
-      font-size:11px;
-      font-weight:900;
-    }
-
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}
+    button,input{font:inherit}
+    button{border:0;border-radius:8px;padding:10px 12px;font-weight:800;cursor:pointer}
+    .hidden{display:none!important}
+    .login-page{min-height:100vh;display:grid;place-items:center;padding:20px}
+    .login-card{width:min(420px,100%);padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .brand{font-size:23px;font-weight:900}
+    .brand small{display:block;margin-top:4px;color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+    .login-card h1{margin:20px 0 6px;font-size:20px}
+    .muted{color:var(--muted);line-height:1.45}
+    label{display:block;margin-top:14px;font-size:12px;font-weight:800}
+    input{width:100%;margin-top:6px;padding:11px;border:1px solid #395170;border-radius:8px;outline:none;background:#0c1524;color:#fff}
+    input:focus{border-color:var(--blue)}
+    .login-button{width:100%;margin-top:18px;background:var(--green);color:#062514}
+    .message{min-height:20px;margin:14px 0 0;color:#ffd2d7;font-size:12px}
+    .app{height:100vh;display:grid;grid-template-rows:62px 1fr}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line)}
+    .header-title{font-size:18px;font-weight:900}
+    .header-subtitle{margin-top:2px;color:var(--muted);font-size:11px}
+    .header-actions{display:flex;align-items:center;gap:8px}
+    .email{max-width:190px;overflow:hidden;color:var(--muted);font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+    .refresh{background:#304561;color:#fff}
+    .logout{background:#4a2734;color:#ffdee2}
+    main{display:grid;grid-template-columns:330px 1fr;min-height:0}
+    aside{overflow:auto;padding:16px;background:var(--panel);border-right:1px solid var(--line)}
+    #map{width:100%;height:100%;background:#15233a}
+    .eyebrow{color:#91a4c2;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .card{margin:10px 0;padding:12px;border:1px solid #2b3f60;border-radius:11px;background:var(--panel2)}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .stat{padding:10px;border-radius:9px;background:#0c1524}
+    .stat b{display:block;font-size:18px}
+    .stat span{color:var(--muted);font-size:10px}
+    .point-list{margin-top:10px}
+    .point-row{margin-top:8px;padding:10px;border:1px solid #2a3d5d;border-radius:9px;background:#0c1524;cursor:pointer}
+    .point-row:hover{border-color:#5c89bd}
+    .point-row.active{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+    .point-row b{display:block;font-size:12px}
+    .point-row small{display:block;margin-top:3px;color:var(--muted);font-size:10px;line-height:1.35}
+    .point-row .delete{width:100%;margin-top:8px;padding:8px;background:#7a2633;color:#fff;font-size:11px}
+    .delivery-row{border-color:#514067}
+    .delivery-row.active{border-color:var(--purple);box-shadow:0 0 0 1px var(--purple)}
+    .empty{padding:15px 0;color:var(--muted);font-size:12px}
+    .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#142038;color:#fff}
+    .popup-title{margin-bottom:6px;font-size:13px;font-weight:900}
+    .popup-meta{color:#cad5e6;font-size:11px;line-height:1.5}
+    .popup-delete{width:100%;margin-top:9px;border-radius:6px;padding:8px;background:#b62c3f;color:#fff;font-size:11px;font-weight:900}
+    .delivery-badge{display:inline-block;margin-top:4px;padding:3px 6px;border-radius:7px;font-size:10px;font-weight:900}
+    .Delivered{background:#153b29;color:#aef6d1}
+    .Partial{background:#493b18;color:#ffe099}
+    .Not-delivered{background:#4b2530;color:#ffc3cb}
+    .Skipped{background:#3b294f;color:#dcc1ff}
     @media(max-width:700px){
-      .app{
-        height:100dvh;
-      }
-
-      header{
-        padding:0 12px;
-      }
-
-      .email{
-        display:none;
-      }
-
-      main{
-        display:block;
-        position:relative;
-      }
-
-      #map{
-        position:absolute;
-        inset:0;
-      }
-
-      aside{
-        position:absolute;
-        z-index:1000;
-        right:0;
-        bottom:0;
-        left:0;
-        max-height:43dvh;
-        border-top:1px solid var(--line);
-        border-right:0;
-        border-radius:16px 16px 0 0;
-      }
+      .app{height:100dvh}
+      header{padding:0 12px}
+      .email{display:none}
+      main{display:block;position:relative}
+      #map{position:absolute;inset:0}
+      aside{position:absolute;z-index:1000;right:0;bottom:0;left:0;max-height:48dvh;border-top:1px solid var(--line);border-right:0;border-radius:16px 16px 0 0}
     }
   </style>
 </head>
-
 <body>
   <section id="loginPage" class="login-page">
     <div class="login-card">
-      <div class="brand">
-        ✓ Vote4Bowdy
-        <small>Manager tools</small>
-      </div>
-
+      <div class="brand">✓ Vote4Bowdy<small>Manager tools</small></div>
       <h1>Manager sign in</h1>
-
-      <p class="muted">
-        Sign in with the Supabase account authorized as a Vote4Bowdy manager.
-      </p>
+      <p class="muted">Sign in with the Supabase account authorized as a Vote4Bowdy manager.</p>
 
       <label for="email">Email address</label>
-      <input
-        id="email"
-        type="email"
-        autocomplete="email"
-        placeholder="manager@example.com"
-      >
+      <input id="email" type="email" autocomplete="email" placeholder="manager@example.com">
 
       <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Your password"
-      >
+      <input id="password" type="password" autocomplete="current-password" placeholder="Your password">
 
-      <button id="loginButton" class="login-button">
-        Sign in
-      </button>
-
+      <button id="loginButton" class="login-button">Sign in</button>
       <p id="loginMessage" class="message"></p>
     </div>
   </section>
 
   <section id="managerApp" class="app hidden">
     <header>
-      <div class="header-left">
+      <div>
         <div class="header-title">Vote4Bowdy Manager Map</div>
-        <div class="header-subtitle">
-          Click a GPS point to review or permanently delete it.
-        </div>
+        <div class="header-subtitle">Click GPS points or delivery dots to review and permanently delete them.</div>
       </div>
-
       <div class="header-actions">
         <span id="signedInEmail" class="email"></span>
         <button id="refreshButton" class="refresh">Refresh</button>
@@ -414,34 +109,21 @@
       <aside>
         <div class="eyebrow">Campaign</div>
         <h2 style="margin:4px 0 6px">Jeffersontown</h2>
-        <p class="muted">
-          GPS route points are shown individually. Delete only points you have reviewed.
-          Deletion is permanent.
-        </p>
+        <p class="muted">Review carefully. Deleting a GPS point or delivery dot is permanent.</p>
 
         <div class="card">
           <div class="eyebrow">Map totals</div>
-
           <div class="stats">
-            <div class="stat">
-              <b id="pointCount">0</b>
-              <span>GPS points loaded</span>
-            </div>
-
-            <div class="stat">
-              <b id="workerCount">0</b>
-              <span>Workers represented</span>
-            </div>
+            <div class="stat"><b id="pointCount">0</b><span>GPS points</span></div>
+            <div class="stat"><b id="deliveryCount">0</b><span>Delivery dots</span></div>
           </div>
         </div>
 
-        <div class="eyebrow" style="margin-top:16px">
-          Most recent points
-        </div>
+        <div class="eyebrow" style="margin-top:16px">Recent GPS points</div>
+        <div id="pointList" class="point-list"><p class="empty">Loading GPS points…</p></div>
 
-        <div id="pointList" class="point-list">
-          <p class="empty">Loading points…</p>
-        </div>
+        <div class="eyebrow" style="margin-top:18px">Recent delivery dots</div>
+        <div id="deliveryList" class="point-list"><p class="empty">Loading deliveries…</p></div>
       </aside>
 
       <div id="map"></div>
@@ -453,86 +135,54 @@
   <script src="vote4bowdy-config.js"></script>
 
   <script>
-    const CAMPAIGN = 'jeffersontown';
-    const MANAGER_UUID = '1f994aed-366c-4547-902a-e9d5be18cf67';
+    const CAMPAIGN='jeffersontown';
+    const MANAGER_UUID='1f994aed-366c-4547-902a-e9d5be18cf67';
+    const $=id=>document.getElementById(id);
 
-    const $ = id => document.getElementById(id);
-
-    let sb;
-    let map;
-    let pointLayer;
-    let routeLayer;
-    let pointsById = new Map();
-    let markerById = new Map();
-    let selectedPointId = null;
+    let sb,map,pointLayer,routeLayer,deliveryLayer;
+    let pointsById=new Map(),deliveriesById=new Map();
+    let pointMarkers=new Map(),deliveryMarkers=new Map();
 
     function esc(value){
-      return String(value ?? '').replace(/[&<>"']/g, character => ({
-        '&':'&amp;',
-        '<':'&lt;',
-        '>':'&gt;',
-        '"':'&quot;',
-        "'":'&#39;'
-      }[character]));
+      return String(value??'').replace(/[&<>"']/g,c=>({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
     }
 
-    function colorForWorker(workerId){
-      let total = 0;
-
-      for(const character of String(workerId || 'worker')){
-        total += character.charCodeAt(0);
-      }
-
-      const colors = [
-        '#ff6575',
-        '#36d8f3',
-        '#ffc44d',
-        '#bd87ff',
-        '#77e6a9'
-      ];
-
-      return colors[total % colors.length];
+    function workerColor(workerId){
+      let total=0;
+      for(const c of String(workerId||'worker')) total+=c.charCodeAt(0);
+      return ['#ff6575','#36d8f3','#ffc44d','#bd87ff','#77e6a9'][total%5];
     }
 
-    function markerIcon(color){
+    function pointIcon(color){
       return L.divIcon({
         className:'',
-        html:
-          '<div style="' +
-          'width:14px;' +
-          'height:14px;' +
-          'border-radius:50%;' +
-          'background:' + color + ';' +
-          'border:2px solid white;' +
-          'box-shadow:0 0 0 3px ' + color + '55' +
-          '"></div>',
+        html:'<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2px solid white;box-shadow:0 0 0 3px '+color+'55"></div>',
         iconSize:[14,14],
         iconAnchor:[7,7]
       });
     }
 
-    function formatTime(value){
-      if(!value){
-        return 'Unknown time';
-      }
+    function deliveryColor(status){
+      return status==='Delivered'?'#36df91':
+        status==='Partial'?'#ffc44d':
+        status==='Not delivered'?'#ff6575':'#bd87ff';
+    }
 
+    function formatTime(value){
+      if(!value) return 'Unknown time';
       return new Date(value).toLocaleString([],{
-        month:'short',
-        day:'numeric',
-        hour:'numeric',
-        minute:'2-digit',
-        second:'2-digit'
+        month:'short',day:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit'
       });
     }
 
-    function shortWorkerId(workerId){
-      return workerId
-        ? workerId.slice(0,8)
-        : 'Unknown';
+    function shortId(id){
+      return id?String(id).slice(0,8):'Unknown';
     }
 
     function showLoginMessage(message){
-      $('loginMessage').textContent = message || '';
+      $('loginMessage').textContent=message||'';
     }
 
     function showLogin(){
@@ -543,377 +193,362 @@
     function showApp(email){
       $('loginPage').classList.add('hidden');
       $('managerApp').classList.remove('hidden');
-      $('signedInEmail').textContent = email || '';
+      $('signedInEmail').textContent=email||'';
     }
 
     function setupMap(){
-      if(map){
-        return;
-      }
+      if(map) return;
 
-      map = L.map('map').setView([38.19370,-85.56637],12);
+      map=L.map('map').setView([38.19370,-85.56637],12);
 
-      L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-          maxZoom:19,
-          attribution:'© OpenStreetMap contributors'
-        }
-      ).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19,
+        attribution:'© OpenStreetMap contributors'
+      }).addTo(map);
 
-      routeLayer = L.layerGroup().addTo(map);
-      pointLayer = L.layerGroup().addTo(map);
+      routeLayer=L.layerGroup().addTo(map);
+      pointLayer=L.layerGroup().addTo(map);
+      deliveryLayer=L.layerGroup().addTo(map);
 
-      setTimeout(() => map.invalidateSize(), 250);
+      setTimeout(()=>map.invalidateSize(),250);
     }
 
     async function initialize(){
-      if(
-        !window.supabase ||
-        !window.V4B_SUPABASE_URL ||
-        !window.V4B_SUPABASE_KEY
-      ){
-        showLoginMessage(
-          'Supabase configuration did not load. Check vote4bowdy-config.js.'
-        );
+      if(!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){
+        showLoginMessage('Supabase configuration did not load. Check vote4bowdy-config.js.');
         return;
       }
 
-      sb = supabase.createClient(
+      sb=supabase.createClient(
         String(window.V4B_SUPABASE_URL).trim(),
         String(window.V4B_SUPABASE_KEY).trim()
       );
 
-      const { data } = await sb.auth.getSession();
+      const {data}=await sb.auth.getSession();
 
       if(!data.session){
         showLogin();
         return;
       }
 
-      await verifyManagerAndLaunch(data.session.user);
+      await verifyManager(data.session.user);
     }
 
-    async function verifyManagerAndLaunch(user){
-      if(!user || user.id !== MANAGER_UUID){
+    async function verifyManager(user){
+      if(!user||user.id!==MANAGER_UUID){
         await sb.auth.signOut();
         showLogin();
-        showLoginMessage(
-          'This account is not authorized to use Vote4Bowdy manager tools.'
-        );
+        showLoginMessage('This account is not authorized to use Vote4Bowdy manager tools.');
         return;
       }
 
       showApp(user.email);
       setupMap();
-      await loadPoints();
+      await loadAll();
     }
 
     async function signIn(){
-      const email = $('email').value.trim();
-      const password = $('password').value;
+      const email=$('email').value.trim();
+      const password=$('password').value;
 
-      if(!email || !password){
+      if(!email||!password){
         showLoginMessage('Enter your email address and password.');
         return;
       }
 
       showLoginMessage('Signing in…');
-      $('loginButton').disabled = true;
+      $('loginButton').disabled=true;
 
-      const { data, error } = await sb.auth.signInWithPassword({
-        email,
-        password
-      });
+      const {data,error}=await sb.auth.signInWithPassword({email,password});
 
-      $('loginButton').disabled = false;
+      $('loginButton').disabled=false;
 
       if(error){
         showLoginMessage(error.message);
         return;
       }
 
-      $('password').value = '';
-
-      await verifyManagerAndLaunch(data.user);
+      $('password').value='';
+      await verifyManager(data.user);
     }
 
     async function signOut(){
       await sb.auth.signOut();
-
-      selectedPointId = null;
-      pointsById.clear();
-      markerById.clear();
-
       showLogin();
       showLoginMessage('');
     }
 
-    function popupHtml(point){
-      return (
-        '<div class="popup-title">GPS point #' + esc(point.id) + '</div>' +
-        '<div class="popup-meta">' +
-          '<b>Worker:</b> ' + esc(shortWorkerId(point.worker_id)) + '<br>' +
-          '<b>Time:</b> ' + esc(formatTime(point.recorded_at)) + '<br>' +
-          '<b>Accuracy:</b> ' +
-            esc(
-              point.accuracy == null
-                ? 'Unknown'
-                : Number(point.accuracy).toFixed(1) + ' m'
-            ) +
-          '<br>' +
-          '<b>Coordinates:</b> ' +
-            esc(Number(point.lat).toFixed(6)) +
-            ', ' +
-            esc(Number(point.lng).toFixed(6)) +
-        '</div>' +
-        '<button class="popup-delete" data-delete-point="' +
-          esc(point.id) +
-        '">' +
-          'Delete this point' +
-        '</button>'
-      );
+    function gpsPopup(point){
+      return '<div class="popup-title">GPS point #'+esc(point.id)+'</div>'+
+        '<div class="popup-meta">'+
+        '<b>Worker:</b> '+esc(shortId(point.worker_id))+'<br>'+
+        '<b>Time:</b> '+esc(formatTime(point.recorded_at))+'<br>'+
+        '<b>Accuracy:</b> '+esc(point.accuracy==null?'Unknown':Number(point.accuracy).toFixed(1)+' m')+'<br>'+
+        '<b>Coordinates:</b> '+esc(Number(point.lat).toFixed(6))+', '+esc(Number(point.lng).toFixed(6))+
+        '</div>'+
+        '<button class="popup-delete" data-delete-gps="'+esc(point.id)+'">Delete this GPS point</button>';
     }
 
-    function selectPoint(pointId, flyTo = true){
-      const point = pointsById.get(Number(pointId));
-
-      if(!point){
-        return;
-      }
-
-      selectedPointId = Number(pointId);
-
-      document.querySelectorAll('.point-row').forEach(row => {
-        row.classList.toggle(
-          'active',
-          Number(row.dataset.pointId) === selectedPointId
-        );
-      });
-
-      const marker = markerById.get(selectedPointId);
-
-      if(marker){
-        marker.openPopup();
-
-        if(flyTo){
-          map.flyTo(
-            [point.lat, point.lng],
-            Math.max(map.getZoom(), 16),
-            { duration:.4 }
-          );
-        }
-      }
+    function deliveryPopup(delivery){
+      return '<div class="popup-title">Delivery dot #'+esc(delivery.id)+'</div>'+
+        '<div class="popup-meta">'+
+        '<b>Status:</b> '+esc(delivery.delivery_status)+'<br>'+
+        '<b>Worker:</b> '+esc(delivery.worker_name||shortId(delivery.worker_id))+'<br>'+
+        '<b>Time:</b> '+esc(formatTime(delivery.created_at))+'<br>'+
+        '<b>Note:</b> '+esc(delivery.note||'No note')+'<br>'+
+        '<b>Coordinates:</b> '+esc(Number(delivery.lat).toFixed(6))+', '+esc(Number(delivery.lng).toFixed(6))+
+        '</div>'+
+        '<button class="popup-delete" data-delete-delivery="'+esc(delivery.id)+'">Delete this delivery dot</button>';
     }
 
-    function renderPointList(points){
-      const list = $('pointList');
-
-      if(!points.length){
-        list.innerHTML =
-          '<p class="empty">No GPS route points were found for this campaign.</p>';
-        return;
-      }
-
-      const latestPoints = [...points]
-        .sort((a,b) => new Date(b.recorded_at) - new Date(a.recorded_at))
-        .slice(0,100);
-
-      list.innerHTML = latestPoints.map(point => (
-        '<div class="point-row" data-point-id="' + esc(point.id) + '">' +
-          '<b>Point #' + esc(point.id) +
-            ' · Worker ' + esc(shortWorkerId(point.worker_id)) +
-          '</b>' +
-          '<small>' +
-            esc(formatTime(point.recorded_at)) +
-            '<br>' +
-            esc(Number(point.lat).toFixed(6)) +
-            ', ' +
-            esc(Number(point.lng).toFixed(6)) +
-            ' · ' +
-            esc(
-              point.accuracy == null
-                ? 'Accuracy unknown'
-                : Number(point.accuracy).toFixed(1) + ' m accuracy'
-            ) +
-          '</small>' +
-          '<button class="delete" data-delete-point="' + esc(point.id) + '">' +
-            'Delete point #' + esc(point.id) +
-          '</button>' +
-        '</div>'
-      )).join('');
-
-      list.querySelectorAll('.point-row').forEach(row => {
-        row.addEventListener('click', event => {
-          if(event.target.closest('[data-delete-point]')){
-            return;
-          }
-
-          selectPoint(row.dataset.pointId);
-        });
-      });
-
-      list.querySelectorAll('[data-delete-point]').forEach(button => {
-        button.addEventListener('click', event => {
-          event.stopPropagation();
-          deletePoint(button.dataset.deletePoint);
-        });
-      });
-    }
-
-    function drawPoints(points){
+    function drawMap(points,deliveries){
       pointLayer.clearLayers();
       routeLayer.clearLayers();
+      deliveryLayer.clearLayers();
 
       pointsById.clear();
-      markerById.clear();
+      deliveriesById.clear();
+      pointMarkers.clear();
+      deliveryMarkers.clear();
 
-      const routesByWorker = {};
+      const byWorker={};
 
-      points.forEach(point => {
-        pointsById.set(Number(point.id), point);
+      points.forEach(point=>{
+        pointsById.set(Number(point.id),point);
 
-        const marker = L.marker(
-          [point.lat, point.lng],
-          {
-            icon:markerIcon(colorForWorker(point.worker_id))
-          }
-        )
-          .addTo(pointLayer)
-          .bindPopup(popupHtml(point));
+        const marker=L.marker([point.lat,point.lng],{
+          icon:pointIcon(workerColor(point.worker_id))
+        }).addTo(pointLayer).bindPopup(gpsPopup(point));
 
-        marker.on('click', () => {
-          selectedPointId = Number(point.id);
-
-          document.querySelectorAll('.point-row').forEach(row => {
-            row.classList.toggle(
-              'active',
-              Number(row.dataset.pointId) === selectedPointId
-            );
-          });
-        });
-
-        markerById.set(Number(point.id), marker);
-
-        (routesByWorker[point.worker_id] ??= [])
-          .push(point);
+        pointMarkers.set(Number(point.id),marker);
+        (byWorker[point.worker_id]??=[]).push(point);
       });
 
-      Object.entries(routesByWorker).forEach(([workerId, workerPoints]) => {
-        const sorted = [...workerPoints]
-          .sort((a,b) => new Date(a.recorded_at) - new Date(b.recorded_at));
+      Object.entries(byWorker).forEach(([workerId,workerPoints])=>{
+        const coordinates=[...workerPoints]
+          .sort((a,b)=>new Date(a.recorded_at)-new Date(b.recorded_at))
+          .map(point=>[point.lat,point.lng]);
 
-        const coordinates = sorted.map(point => [
-          point.lat,
-          point.lng
-        ]);
-
-        if(coordinates.length > 1){
+        if(coordinates.length>1){
           L.polyline(coordinates,{
-            color:colorForWorker(workerId),
+            color:workerColor(workerId),
             weight:4,
             opacity:.6
           }).addTo(routeLayer);
         }
       });
 
-      if(points.length){
-        const bounds = L.latLngBounds(
-          points.map(point => [point.lat, point.lng])
-        );
+      deliveries.forEach(delivery=>{
+        deliveriesById.set(Number(delivery.id),delivery);
 
-        if(bounds.isValid()){
-          map.fitBounds(bounds.pad(.12));
-        }
+        const marker=L.circleMarker([delivery.lat,delivery.lng],{
+          radius:9,
+          color:'#fff',
+          weight:2,
+          fillColor:deliveryColor(delivery.delivery_status),
+          fillOpacity:1
+        }).addTo(deliveryLayer).bindPopup(deliveryPopup(delivery));
+
+        deliveryMarkers.set(Number(delivery.id),marker);
+      });
+
+      const coordinates=[
+        ...points.map(point=>[point.lat,point.lng]),
+        ...deliveries.map(delivery=>[delivery.lat,delivery.lng])
+      ];
+
+      if(coordinates.length){
+        const bounds=L.latLngBounds(coordinates);
+        if(bounds.isValid()) map.fitBounds(bounds.pad(.12));
       }
     }
 
-    async function loadPoints(){
-      $('refreshButton').disabled = true;
-      $('refreshButton').textContent = 'Loading…';
+    function renderPoints(points){
+      const list=$('pointList');
 
-      const { data, error } = await sb
-        .from('v4b_route_points')
-        .select('id,campaign,worker_id,lat,lng,accuracy,inside_boundary,recorded_at')
-        .eq('campaign', CAMPAIGN)
-        .order('recorded_at',{ascending:true})
-        .limit(5000);
-
-      $('refreshButton').disabled = false;
-      $('refreshButton').textContent = 'Refresh';
-
-      if(error){
-        alert('Could not load route points: ' + error.message);
+      if(!points.length){
+        list.innerHTML='<p class="empty">No GPS points found.</p>';
         return;
       }
 
-      const points = data || [];
-      const workers = new Set(points.map(point => point.worker_id));
+      list.innerHTML=[...points]
+        .sort((a,b)=>new Date(b.recorded_at)-new Date(a.recorded_at))
+        .slice(0,60)
+        .map(point=>
+          '<div class="point-row" data-gps-row="'+esc(point.id)+'">'+
+          '<b>GPS #'+esc(point.id)+' · Worker '+esc(shortId(point.worker_id))+'</b>'+
+          '<small>'+esc(formatTime(point.recorded_at))+'<br>'+
+          esc(Number(point.lat).toFixed(6))+', '+esc(Number(point.lng).toFixed(6))+
+          ' · '+esc(point.accuracy==null?'Accuracy unknown':Number(point.accuracy).toFixed(1)+' m accuracy')+
+          '</small>'+
+          '<button class="delete" data-delete-gps="'+esc(point.id)+'">Delete GPS point</button>'+
+          '</div>'
+        ).join('');
 
-      $('pointCount').textContent = points.length;
-      $('workerCount').textContent = workers.size;
-
-      drawPoints(points);
-      renderPointList(points);
+      list.querySelectorAll('[data-gps-row]').forEach(row=>{
+        row.onclick=event=>{
+          if(event.target.closest('[data-delete-gps]')) return;
+          const marker=pointMarkers.get(Number(row.dataset.gpsRow));
+          const point=pointsById.get(Number(row.dataset.gpsRow));
+          if(marker&&point){
+            map.flyTo([point.lat,point.lng],Math.max(map.getZoom(),16),{duration:.4});
+            marker.openPopup();
+          }
+        };
+      });
     }
 
-    async function deletePoint(pointId){
-      const point = pointsById.get(Number(pointId));
+    function renderDeliveries(deliveries){
+      const list=$('deliveryList');
+
+      if(!deliveries.length){
+        list.innerHTML='<p class="empty">No delivery dots found.</p>';
+        return;
+      }
+
+      list.innerHTML=[...deliveries]
+        .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
+        .slice(0,60)
+        .map(delivery=>
+          '<div class="point-row delivery-row" data-delivery-row="'+esc(delivery.id)+'">'+
+          '<b>Delivery #'+esc(delivery.id)+' · '+esc(delivery.worker_name||shortId(delivery.worker_id))+'</b>'+
+          '<span class="delivery-badge '+esc(delivery.delivery_status.replace(' ','-'))+'">'+esc(delivery.delivery_status)+'</span>'+
+          '<small>'+esc(formatTime(delivery.created_at))+'<br>'+
+          esc(delivery.note||'No note')+'</small>'+
+          '<button class="delete" data-delete-delivery="'+esc(delivery.id)+'">Delete delivery dot</button>'+
+          '</div>'
+        ).join('');
+
+      list.querySelectorAll('[data-delivery-row]').forEach(row=>{
+        row.onclick=event=>{
+          if(event.target.closest('[data-delete-delivery]')) return;
+          const marker=deliveryMarkers.get(Number(row.dataset.deliveryRow));
+          const delivery=deliveriesById.get(Number(row.dataset.deliveryRow));
+          if(marker&&delivery){
+            map.flyTo([delivery.lat,delivery.lng],Math.max(map.getZoom(),16),{duration:.4});
+            marker.openPopup();
+          }
+        };
+      });
+    }
+
+    async function loadAll(){
+      $('refreshButton').disabled=true;
+      $('refreshButton').textContent='Loading…';
+
+      const [pointResult,deliveryResult]=await Promise.all([
+        sb.from('v4b_route_points')
+          .select('id,campaign,worker_id,lat,lng,accuracy,inside_boundary,recorded_at')
+          .eq('campaign',CAMPAIGN)
+          .order('recorded_at',{ascending:true})
+          .limit(5000),
+
+        sb.from('v4b_delivery_entries')
+          .select('id,campaign,worker_id,worker_name,lat,lng,delivery_status,note,created_at')
+          .eq('campaign',CAMPAIGN)
+          .order('created_at',{ascending:true})
+          .limit(5000)
+      ]);
+
+      $('refreshButton').disabled=false;
+      $('refreshButton').textContent='Refresh';
+
+      if(pointResult.error){
+        alert('Could not load GPS points: '+pointResult.error.message);
+        return;
+      }
+
+      if(deliveryResult.error){
+        alert('Could not load delivery dots: '+deliveryResult.error.message);
+        return;
+      }
+
+      const points=pointResult.data||[];
+      const deliveries=deliveryResult.data||[];
+
+      $('pointCount').textContent=points.length;
+      $('deliveryCount').textContent=deliveries.length;
+
+      drawMap(points,deliveries);
+      renderPoints(points);
+      renderDeliveries(deliveries);
+    }
+
+    async function deleteGpsPoint(id){
+      const point=pointsById.get(Number(id));
 
       if(!point){
         alert('That GPS point is no longer available. Refresh and try again.');
         return;
       }
 
-      const confirmed = window.confirm(
-        'Permanently delete GPS point #' +
-        point.id +
-        ' from ' +
-        formatTime(point.recorded_at) +
-        '?\n\nThis cannot be undone.'
-      );
-
-      if(!confirmed){
+      if(!confirm('Permanently delete GPS point #'+point.id+' from '+formatTime(point.recorded_at)+'?\n\nThis cannot be undone.')){
         return;
       }
 
-      const { error } = await sb
+      const {error}=await sb
         .from('v4b_route_points')
         .delete()
-        .eq('id', point.id);
+        .eq('id',point.id);
 
       if(error){
-        alert(
-          'Could not delete this point: ' +
-          error.message +
-          '\n\nMake sure you are signed in with the approved manager account.'
-        );
+        alert('Could not delete GPS point: '+error.message);
         return;
       }
 
-      selectedPointId = null;
-
-      await loadPoints();
+      await loadAll();
     }
 
-    document.addEventListener('click', event => {
-      const deleteButton = event.target.closest('[data-delete-point]');
+    async function deleteDeliveryDot(id){
+      const delivery=deliveriesById.get(Number(id));
 
-      if(deleteButton){
-        deletePoint(deleteButton.dataset.deletePoint);
+      if(!delivery){
+        alert('That delivery dot is no longer available. Refresh and try again.');
+        return;
+      }
+
+      if(!confirm('Permanently delete delivery dot #'+delivery.id+' ('+delivery.delivery_status+') from '+formatTime(delivery.created_at)+'?\n\nThis cannot be undone.')){
+        return;
+      }
+
+      const {error}=await sb
+        .from('v4b_delivery_entries')
+        .delete()
+        .eq('id',delivery.id);
+
+      if(error){
+        alert('Could not delete delivery dot: '+error.message);
+        return;
+      }
+
+      await loadAll();
+    }
+
+    document.addEventListener('click',event=>{
+      const gpsButton=event.target.closest('[data-delete-gps]');
+      const deliveryButton=event.target.closest('[data-delete-delivery]');
+
+      if(gpsButton){
+        event.preventDefault();
+        event.stopPropagation();
+        deleteGpsPoint(gpsButton.dataset.deleteGps);
+      }
+
+      if(deliveryButton){
+        event.preventDefault();
+        event.stopPropagation();
+        deleteDeliveryDot(deliveryButton.dataset.deleteDelivery);
       }
     });
 
-    $('loginButton').addEventListener('click', signIn);
+    $('loginButton').onclick=signIn;
 
-    $('password').addEventListener('keydown', event => {
-      if(event.key === 'Enter'){
-        signIn();
-      }
-    });
+    $('password').onkeydown=event=>{
+      if(event.key==='Enter') signIn();
+    };
 
-    $('refreshButton').addEventListener('click', loadPoints);
-    $('logoutButton').addEventListener('click', signOut);
+    $('refreshButton').onclick=loadAll;
+    $('logoutButton').onclick=signOut;
 
     initialize();
   </script>
