@@ -1,243 +1,594 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vote4Bowdy Manager</title><link rel="icon" href="data:,"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>
-:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:62px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line)}.brand{font-size:20px;font-weight:850}.brand small{display:block;color:#9cacbf;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.live{background:#113624;color:#c3f7d9;padding:7px 10px;border-radius:16px;font-size:12px;font-weight:800}.live:before{content:'●';color:var(--green);margin-right:6px}main{display:grid;grid-template-columns:300px 1fr 290px;min-height:0}aside{overflow:auto;background:var(--panel);padding:16px;border-right:1px solid var(--line)}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{color:var(--muted);font-size:12px;line-height:1.45}.card{margin:11px 0;background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#1a2940;padding:9px;border-radius:9px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:#aab9cd}.worker{padding:10px 0;border-top:1px solid #283a57;display:flex;gap:8px;align-items:center;cursor:pointer}.worker:hover{background:#17243a}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;padding:4px 6px;border-radius:9px;background:#143b28;color:#bdf8d8;font-size:9px;font-weight:900}.tag.off{background:#2d384a;color:#d3deeb}.tag.pause{background:#46391b;color:#ffdf91}.maplabel{position:absolute;z-index:1000;top:14px;left:14px;background:#0d1727e8;border:1px solid #38506f;border-radius:10px;padding:9px 11px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.legend{position:absolute;z-index:1000;bottom:15px;left:15px;background:#0d1727e8;border:1px solid #38506f;border-radius:9px;padding:8px 10px;font-size:11px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 4px 0 9px}.legend i:first-child{margin-left:0}.entry{padding:10px 0;border-top:1px solid #283a57}.entry b{display:block;font-size:12px}.entry small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.badge{display:inline-block;font-size:9px;font-weight:900;border-radius:8px;padding:3px 6px;margin-top:5px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}.toolbar{display:flex;gap:6px;margin-top:9px}.toolbar button{flex:1;background:#22314a;color:#e7eef8;border:1px solid #354b6a;border-radius:8px;padding:8px;font-size:11px;font-weight:800;cursor:pointer}.toolbar .active{background:#173f71;border-color:#5494e2}.export{width:100%;margin-top:12px;border:0;border-radius:9px;background:linear-gradient(135deg,#e7334a,#ed5f42);padding:10px;color:#fff;font-weight:850;cursor:pointer}@media(max-width:850px){main{grid-template-columns:285px 1fr}.right{display:none}}@media(max-width:620px){.app{grid-template-rows:54px 1fr}main{display:block}.mapwrap{height:100%}aside{position:absolute;z-index:1001;bottom:0;left:0;right:0;height:43vh;padding:13px;border-radius:18px 18px 0 0;border:1px solid var(--line)}.right{display:none}.legend{bottom:44vh}.maplabel{top:10px;left:10px}}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vote4Bowdy Manager</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-.route-summary{
-  margin-top:8px;
-  padding:11px;
-  border:1px solid #2b3f60;
-  border-left:4px solid var(--route-color,#67b7ff);
-  border-radius:9px;
-  background:#152137;
-}
+<style>
+:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:62px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line)}.brand{font-size:20px;font-weight:850}.brand small{display:block;color:#9cacbf;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.live{background:#113624;color:#c3f7d9;padding:7px 10px;border-radius:16px;font-size:12px;font-weight:800}.live:before{content:'●';color:var(--green);margin-right:6px}main{display:grid;grid-template-columns:300px 1fr 290px;min-height:0}aside{overflow:auto;background:var(--panel);padding:16px;border-right:1px solid var(--line)}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{color:var(--muted);font-size:12px;line-height:1.45}.card{margin:11px 0;background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#1a2940;padding:9px;border-radius:9px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:#aab9cd}.worker{padding:10px 0;border-top:1px solid #283a57;display:flex;gap:8px;align-items:center;cursor:pointer}.worker:hover{background:#17243a}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;padding:4px 6px;border-radius:9px;background:#143b28;color:#bdf8d8;font-size:9px;font-weight:900}.tag.off{background:#2d384a;color:#d3deeb}.tag.pause{background:#46391b;color:#ffdf91}.maplabel{position:absolute;z-index:1000;top:14px;left:14px;background:#0d1727e8;border:1px solid #38506f;border-radius:10px;padding:9px 11px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.legend{position:absolute;z-index:1000;bottom:15px;left:15px;background:#0d1727e8;border:1px solid #38506f;border-radius:9px;padding:8px 10px;font-size:11px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 4px 0 9px}.legend i:first-child{margin-left:0}.entry{padding:10px 0;border-top:1px solid #283a57}.entry b{display:block;font-size:12px}.entry small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.badge{display:inline-block;font-size:9px;font-weight:900;border-radius:8px;padding:3px 6px;margin-top:5px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}.toolbar{display:flex;gap:6px;margin-top:9px}.toolbar button{flex:1;background:#22314a;color:#e7eef8;border:1px solid #354b6a;border-radius:8px;padding:8px;font-size:11px;font-weight:800;cursor:pointer}.toolbar .active{background:#173f71;border-color:#5494e2}.export{width:100%;margin-top:12px;border:0;border-radius:9px;background:linear-gradient(135deg,#e7334a,#ed5f42);padding:10px;color:#fff;font-weight:850;cursor:pointer}.route-summary{margin-top:8px;padding:11px;border:1px solid #2b3f60;border-left:4px solid var(--route-color,#67b7ff);border-radius:9px;background:#152137}.route-summary b{display:block;font-size:13px}.route-summary small{display:block;margin-top:4px;color:var(--muted);font-size:10px;line-height:1.45}.route-summary .route-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}.route-summary .route-metric{padding:6px;border-radius:6px;background:#0c1524;color:#cbd6e5;font-size:10px}.route-summary .route-metric b{color:#fff;font-size:12px}.estimate-button{width:100%;margin-top:8px;padding:8px;border-radius:7px;border:1px solid #42668f;background:#1c324d;color:#b7d9ff;font-size:11px;font-weight:800;cursor:not-allowed;opacity:.72}.estimate-button.done{border-color:#2f805a;background:#153b29;color:#bdf8d8;cursor:default;opacity:1}.estimate-note{margin-top:7px;color:#91a4c2;font-size:9px;line-height:1.35}@media(max-width:850px){main{grid-template-columns:285px 1fr}.right{display:none}}@media(max-width:620px){.app{grid-template-rows:54px 1fr}main{display:block}.mapwrap{height:100%}aside{position:absolute;z-index:1001;bottom:0;left:0;right:0;height:43vh;padding:13px;border-radius:18px 18px 0 0;border:1px solid var(--line)}.right{display:none}.legend{bottom:44vh}.maplabel{top:10px;left:10px}}
+</style>
+</head>
 
-.route-summary b{
-  display:block;
-  font-size:13px;
-}
+<body>
+<div class="app">
+<header>
+  <div class="brand">✓ Vote4Bowdy<small>Manager Dashboard · Jeffersontown</small></div>
+  <div class="live" id="live">Loading team</div>
+</header>
 
-.route-summary small{
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.45;
-}
+<main>
+<aside>
+  <div class="eyebrow">Campaign overview</div>
+  <h2 style="margin:3px 0">Jeffersontown City Limits</h2>
+  <div class="muted">Live locations, completed routes, and delivery statuses.</div>
 
-.route-summary .route-metrics{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px;
-  margin-top:8px;
-}
+  <div class="card">
+    <div class="eyebrow">Delivery updates</div>
+    <b id="updates" style="font-size:22px">0</b>
+    <div class="muted" id="summary">Loading campaign records…</div>
+  </div>
 
-.route-summary .route-metric{
-  padding:6px;
-  border-radius:6px;
-  background:#0c1524;
-  color:#cbd6e5;
-  font-size:10px;
-}
+  <div class="stats">
+    <div class="stat"><b id="delivered">0</b><span>Delivered</span></div>
+    <div class="stat"><b id="partial">0</b><span>Partial</span></div>
+    <div class="stat"><b id="notDelivered">0</b><span>Not delivered</span></div>
+    <div class="stat"><b id="skipped">0</b><span>Skipped</span></div>
+  </div>
 
-.route-summary .route-metric b{
-  color:#fff;
-  font-size:12px;
-}
+  <div class="eyebrow" style="margin-top:18px">Completed routes</div>
+  <div id="routeOverview">
+    <p class="muted">Loading completed routes…</p>
+  </div>
 
-</style></head><body><div class="app"><header><div class="brand">✓ Vote4Bowdy<small>Manager Dashboard · Jeffersontown</small></div><div class="live" id="live">Loading team</div></header><main><aside><div class="eyebrow">Campaign overview</div><h2 style="margin:3px 0">Jeffersontown City Limits</h2><div class="muted">Live locations, personal route colors, and delivery statuses.</div><div class="card"><div class="eyebrow">Delivery updates</div><b id="updates" style="font-size:22px">0</b><div class="muted" id="summary">Loading campaign records…</div></div><div class="stats"><div class="stat"><b id="delivered">0</b><span>Delivered</span></div><div class="stat"><b id="partial">0</b><span>Partial</span></div><div class="stat"><b id="notDelivered">0</b><span>Not delivered</span></div><div class="stat"><b id="skipped">0</b><span>Skipped</span></div></div><div class="eyebrow" style="margin-top:18px">Route overview</div>
+  <div class="eyebrow" style="margin-top:18px">Team members</div>
+  <div id="workers"><p class="muted">Loading workers…</p></div>
 
-<div id="routeOverview">
-  <p class="muted">Loading route summaries…</p>
-</div><div class="eyebrow" style="margin-top:18px">Team members</div><div id="workers"><p class="muted">Loading workers…</p></div><button id="export" class="export">Download delivery CSV</button></aside><section class="mapwrap"><div id="map"></div><div class="maplabel"><b>Live team field map</b><span>Each route uses the worker’s chosen color</span></div><div class="legend"><i style="background:#36df91"></i>Delivered <i style="background:#ffc44d"></i>Partial <i style="background:#ff6575"></i>Not delivered <i style="background:#bd87ff"></i>Skipped</div></section><aside class="right"><div class="eyebrow">Map filters</div><div class="toolbar"><button data-filter="all" class="active">All</button><button data-filter="routes">Routes</button><button data-filter="deliveries">Delivery</button></div><div class="eyebrow" style="margin-top:17px">Recent delivery activity</div><div id="log"><p class="muted">Loading delivery records…</p></div></aside></main></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="vote4bowdy-config.js"></script><script>
+  <button id="export" class="export">Download delivery CSV</button>
+</aside>
+
+<section class="mapwrap">
+  <div id="map"></div>
+
+  <div class="maplabel">
+    <b>Live team field map</b>
+    <span>Each route uses the worker’s chosen color</span>
+  </div>
+
+  <div class="legend">
+    <i style="background:#36df91"></i>Delivered
+    <i style="background:#ffc44d"></i>Partial
+    <i style="background:#ff6575"></i>Not delivered
+    <i style="background:#bd87ff"></i>Skipped
+  </div>
+</section>
+
+<aside class="right">
+  <div class="eyebrow">Map filters</div>
+
+  <div class="toolbar">
+    <button data-filter="all" class="active">All</button>
+    <button data-filter="routes">Routes</button>
+    <button data-filter="deliveries">Delivery</button>
+  </div>
+
+  <div class="eyebrow" style="margin-top:17px">Recent delivery activity</div>
+  <div id="log"><p class="muted">Loading delivery records…</p></div>
+</aside>
+</main>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="vote4bowdy-config.js"></script>
+
+<script>
 (function(){
-var CAMPAIGN='jeffersontown',
-DEFAULT='#ff6575',
-sb,
-map,
-deliveryLayer,
-currentFilter='all',
-workerMarkers={},
-routeLines={},
-workerColors={},
-workersById={};
-function $(id){return document.getElementById(id)}
-function esc(v){return String(v||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function initials(n){return String(n||'?').split(/\s+/).map(function(x){return x.charAt(0)}).join('').slice(0,2).toUpperCase()}
-function automaticWorkerColor(workerId){
-  var colors=[
-    '#ff6575',
-    '#36d8f3',
-    '#ffc44d',
-    '#bd87ff',
-    '#77e6a9',
-    '#ff9f67',
-    '#67b7ff',
-    '#ff6ec7',
-    '#66d9b8',
-    '#a8e05f',
-    '#c994ff',
-    '#ffb86b'
-  ];
-  var hash=0;
-  var id=String(workerId||'worker');
-  for(var i=0;i<id.length;i++){
-    hash=((hash<<5)-hash)+id.charCodeAt(i);
-    hash=hash|0;
-  }
-  return colors[Math.abs(hash)%colors.length];
-}
-function cleanColor(color,workerId){
-  return /^#[0-9a-fA-F]{6}$/.test(String(color||''))
-    ? color
-    : automaticWorkerColor(workerId);
-}
-function icon(c){return L.divIcon({className:'',html:'<div style="width:19px;height:19px;border-radius:50%;background:'+c+';border:3px solid white;box-shadow:0 0 0 5px '+c+'55"></div>',iconSize:[19,19],iconAnchor:[10,10]})}
-function tag(s){return s==='tracking'?'<span class="tag">LIVE</span>':s==='paused'?'<span class="tag pause">PAUSED</span>':'<span class="tag off">OFF</span>'}
-function deliveryColor(s){return s==='Delivered'?'#36df91':s==='Partial'?'#ffc44d':s==='Not delivered'?'#ff6575':'#bd87ff'}
-function cls(s){return String(s).replace(' ','-')}function routeDistanceMeters(points){
-  var total=0;
+  var CAMPAIGN='jeffersontown';
+  var sb,map,deliveryLayer,currentFilter='all';
+  var workerMarkers={},routeLines={},workerColors={},workersById={};
 
-  for(var i=1;i<points.length;i++){
-    var a=points[i-1];
-    var b=points[i];
+  function $(id){return document.getElementById(id)}
 
-    var R=6371000;
-    var radians=Math.PI/180;
-    var lat1=a.lat*radians;
-    var lat2=b.lat*radians;
-    var deltaLat=(b.lat-a.lat)*radians;
-    var deltaLng=(b.lng-a.lng)*radians;
-
-    var h=
-      Math.sin(deltaLat/2)*Math.sin(deltaLat/2)+
-      Math.cos(lat1)*Math.cos(lat2)*
-      Math.sin(deltaLng/2)*Math.sin(deltaLng/2);
-
-    total+=2*R*Math.asin(Math.sqrt(h));
+  function esc(v){
+    return String(v||'').replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
   }
 
-  return total;
-}
-
-function routeDurationText(startTime,endTime){
-  var seconds=Math.max(
-    0,
-    Math.round((new Date(endTime)-new Date(startTime))/1000)
-  );
-
-  var hours=Math.floor(seconds/3600);
-  var minutes=Math.floor((seconds%3600)/60);
-
-  return hours>0
-    ? hours+'h '+minutes+'m'
-    : minutes+'m';
-}
-
-function routeTimeText(value){
-  return new Date(value).toLocaleString([],{
-    month:'short',
-    day:'numeric',
-    hour:'numeric',
-    minute:'2-digit'
-  });
-}
-
-function renderRouteOverview(groups){
-  var target=$('routeOverview');
-  var workerIds=Object.keys(groups);
-
-  if(!workerIds.length){
-    target.innerHTML='<p class="muted">No route points have been recorded yet.</p>';
-    return;
+  function initials(n){
+    return String(n||'?')
+      .split(/\s+/)
+      .map(function(x){return x.charAt(0)})
+      .join('')
+      .slice(0,2)
+      .toUpperCase();
   }
 
-  var HOMES_PER_MILE=45;
+  function automaticWorkerColor(workerId){
+    var colors=[
+      '#ff6575','#36d8f3','#ffc44d','#bd87ff',
+      '#77e6a9','#ff9f67','#67b7ff','#ff6ec7',
+      '#66d9b8','#a8e05f','#c994ff','#ffb86b'
+    ];
 
-  target.innerHTML=workerIds.map(function(workerId){
-    var points=groups[workerId];
-    var worker=workersById[workerId]||{};
-    var first=points[0];
-    var last=points[points.length-1];
-    var miles=routeDistanceMeters(points)/1609.344;
-    var estimatedHomes=Math.round(miles*HOMES_PER_MILE);
-    var color=workerColors[workerId]||automaticWorkerColor(workerId);
+    var hash=0;
+    var id=String(workerId||'worker');
 
-    return (
-      '<div class="route-summary" style="--route-color:'+color+'">'+
-        '<b>'+esc(worker.display_name||'Unknown worker')+'</b>'+
-        '<small>'+
-          esc(worker.mode||'Unknown mode')+
-          ' · '+points.length+' GPS updates'+
-        '</small>'+
-        '<div class="route-metrics">'+
-          '<div class="route-metric"><b>'+miles.toFixed(2)+' mi</b><br>Distance</div>'+
-          '<div class="route-metric"><b>~'+estimatedHomes+'</b><br>Est. homes passed</div>'+
-          '<div class="route-metric"><b>'+routeDurationText(first.recorded_at,last.recorded_at)+'</b><br>Route time</div>'+
-          '<div class="route-metric"><b>'+routeTimeText(first.recorded_at)+'</b><br>Started</div>'+
-        '</div>'+
-        '<small>Ended '+esc(routeTimeText(last.recorded_at))+'</small>'+
-      '</div>'
-    );
-  }).join('');
-}
-function init(){if(!window.L||!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){$('workers').innerHTML='<p class="muted">Missing map library or Supabase config.</p>';return}try{sb=supabase.createClient(String(window.V4B_SUPABASE_URL).trim(),String(window.V4B_SUPABASE_KEY).trim())}catch(e){$('workers').innerHTML='<p class="muted">'+esc(e.message)+'</p>';return}map=L.map('map').setView([38.19370,-85.56637],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);deliveryLayer=L.layerGroup().addTo(map);setTimeout(function(){map.invalidateSize()},500);loadAll();subscribe()}
-async function loadWorkers(){var res=await sb.from('v4b_workers').select('*').eq('campaign',CAMPAIGN).order('last_seen',{ascending:false});if(res.error){console.error(res.error);return}var rows=res.data||[];workersById={};
-
-rows.forEach(function(w){
-  workersById[w.id]=w;
-});rows.forEach(function(w){
-  workerColors[w.id]=automaticWorkerColor(w.id);
-});$('live').textContent=rows.filter(function(w){return w.tracking_state==='tracking'}).length+' tracking now';$('workers').innerHTML=rows.map(function(w){var c=workerColors[w.id];return '<div class="worker" data-worker="'+w.id+'"><div class="avatar" style="background:'+c+'33;color:'+c+';box-shadow:0 0 0 2px '+c+'">'+initials(w.display_name)+'</div><div><b>'+esc(w.display_name)+'</b><small>'+esc(w.mode)+' · '+esc(w.tracking_state)+' · '+new Date(w.last_seen).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'</small></div>'+tag(w.tracking_state)+'</div>'}).join('')||'<p class="muted">No workers have joined yet.</p>';rows.forEach(function(w){if(w.lat===null||w.lng===null)return;var c=workerColors[w.id],pt=[w.lat,w.lng],popup='<b>'+esc(w.display_name)+'</b><br><span style="color:'+c+'">● chosen route color</span><br>'+esc(w.mode)+' · '+esc(w.tracking_state);if(!workerMarkers[w.id])workerMarkers[w.id]=L.marker(pt,{icon:icon(c)}).addTo(map).bindPopup(popup);else{workerMarkers[w.id].setLatLng(pt);workerMarkers[w.id].setIcon(icon(c));workerMarkers[w.id].setPopupContent(popup)}});document.querySelectorAll('[data-worker]').forEach(function(el){el.onclick=function(){var m=workerMarkers[el.dataset.worker];if(m){map.setView(m.getLatLng(),16);m.openPopup()}}})}
-async function loadRoutes(){
-  var res=await sb
-    .from('v4b_route_points')
-    .select('worker_id,lat,lng,recorded_at')
-    .eq('campaign',CAMPAIGN)
-    .order('recorded_at',{ascending:true})
-    .limit(10000);
-
-  if(res.error){
-    console.error(res.error);
-    return;
-  }
-
-  var groups={};
-
-  (res.data||[]).forEach(function(point){
-    if(!groups[point.worker_id]){
-      groups[point.worker_id]=[];
+    for(var i=0;i<id.length;i++){
+      hash=((hash<<5)-hash)+id.charCodeAt(i);
+      hash=hash|0;
     }
 
-    groups[point.worker_id].push(point);
-  });
+    return colors[Math.abs(hash)%colors.length];
+  }
 
-  renderRouteOverview(groups);
+  function icon(c){
+    return L.divIcon({
+      className:'',
+      html:'<div style="width:19px;height:19px;border-radius:50%;background:'+c+';border:3px solid white;box-shadow:0 0 0 5px '+c+'55"></div>',
+      iconSize:[19,19],
+      iconAnchor:[10,10]
+    });
+  }
 
-  Object.keys(groups).forEach(function(id){
-    var coordinates=groups[id].map(function(point){
-      return [point.lat,point.lng];
+  function tag(s){
+    return s==='tracking'
+      ? '<span class="tag">LIVE</span>'
+      : s==='paused'
+        ? '<span class="tag pause">PAUSED</span>'
+        : '<span class="tag off">OFF</span>';
+  }
+
+  function deliveryColor(s){
+    return s==='Delivered'
+      ? '#36df91'
+      : s==='Partial'
+        ? '#ffc44d'
+        : s==='Not delivered'
+          ? '#ff6575'
+          : '#bd87ff';
+  }
+
+  function cls(s){
+    return String(s).replace(' ','-');
+  }
+
+  function routeTimeText(value){
+    if(!value)return '—';
+
+    return new Date(value).toLocaleString([],{
+      month:'short',
+      day:'numeric',
+      hour:'numeric',
+      minute:'2-digit'
+    });
+  }
+
+  function routeDurationText(startTime,endTime){
+    if(!startTime||!endTime)return '—';
+
+    var seconds=Math.max(
+      0,
+      Math.round((new Date(endTime)-new Date(startTime))/1000)
+    );
+
+    var hours=Math.floor(seconds/3600);
+    var minutes=Math.floor((seconds%3600)/60);
+
+    return hours>0 ? hours+'h '+minutes+'m' : minutes+'m';
+  }
+
+  function milesFromMeters(value){
+    var meters=Number(value||0);
+    return (meters/1609.344).toFixed(2);
+  }
+
+  function renderRouteOverview(routes){
+    var target=$('routeOverview');
+
+    if(!routes.length){
+      target.innerHTML='<p class="muted">No completed routes yet.</p>';
+      return;
+    }
+
+    target.innerHTML=routes.map(function(route){
+      var worker=workersById[route.worker_id]||{};
+      var color=workerColors[route.worker_id]||automaticWorkerColor(route.worker_id);
+      var hasEstimate=route.estimated_houses_passed!==null &&
+        route.estimated_houses_passed!==undefined;
+
+      var housesDisplay=hasEstimate
+        ? String(route.estimated_houses_passed)
+        : 'Not calculated';
+
+      var estimateButton=hasEstimate
+        ? '<button class="estimate-button done" disabled>✓ Census estimate saved</button>'
+        : '<button class="estimate-button" disabled title="Census estimator will be connected next">Estimate houses passed — coming next</button>';
+
+      return (
+        '<div class="route-summary" style="--route-color:'+color+'">'+
+          '<b>'+esc(worker.display_name||'Unknown worker')+'</b>'+
+          '<small>'+
+            esc(route.mode||worker.mode||'Unknown mode')+
+            ' · Completed '+esc(routeTimeText(route.ended_at))+
+          '</small>'+
+          '<div class="route-metrics">'+
+            '<div class="route-metric"><b>'+milesFromMeters(route.distance_meters)+' mi</b><br>Distance</div>'+
+            '<div class="route-metric"><b>'+esc(housesDisplay)+'</b><br>Est. houses passed</div>'+
+            '<div class="route-metric"><b>'+Number(route.gps_point_count||0)+'</b><br>GPS updates</div>'+
+            '<div class="route-metric"><b>'+esc(routeDurationText(route.started_at,route.ended_at))+'</b><br>Route time</div>'+
+          '</div>'+
+          estimateButton+
+          '<div class="estimate-note">'+
+            (hasEstimate
+              ? 'Census block-group housing-density estimate · '+esc(route.estimate_method||'saved method')
+              : 'Estimate uses Census block-group housing density and is calculated once after route completion.'
+            )+
+          '</div>'+
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function init(){
+    if(!window.L||!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){
+      $('workers').innerHTML='<p class="muted">Missing map library or Supabase config.</p>';
+      return;
+    }
+
+    try{
+      sb=supabase.createClient(
+        String(window.V4B_SUPABASE_URL).trim(),
+        String(window.V4B_SUPABASE_KEY).trim()
+      );
+    }catch(e){
+      $('workers').innerHTML='<p class="muted">'+esc(e.message)+'</p>';
+      return;
+    }
+
+    map=L.map('map').setView([38.19370,-85.56637],12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      maxZoom:19,
+      attribution:'© OpenStreetMap contributors'
+    }).addTo(map);
+
+    deliveryLayer=L.layerGroup().addTo(map);
+
+    setTimeout(function(){
+      map.invalidateSize();
+    },500);
+
+    loadAll();
+    subscribe();
+  }
+
+  async function loadWorkers(){
+    var res=await sb
+      .from('v4b_workers')
+      .select('*')
+      .eq('campaign',CAMPAIGN)
+      .order('last_seen',{ascending:false});
+
+    if(res.error){
+      console.error(res.error);
+      return;
+    }
+
+    var rows=res.data||[];
+    workersById={};
+
+    rows.forEach(function(w){
+      workersById[w.id]=w;
+      workerColors[w.id]=automaticWorkerColor(w.id);
     });
 
-    var color=workerColors[id]||automaticWorkerColor(id);
-    var opacity=currentFilter==='deliveries'?0:.75;
+    $('live').textContent=
+      rows.filter(function(w){
+        return w.tracking_state==='tracking';
+      }).length+' tracking now';
 
-    if(!routeLines[id]){
-      routeLines[id]=L.polyline(coordinates,{
-        color:color,
-        weight:4,
-        opacity:opacity
-      }).addTo(map);
-    }else{
-      routeLines[id].setLatLngs(coordinates);
-      routeLines[id].setStyle({
-        color:color,
-        opacity:opacity
+    $('workers').innerHTML=rows.map(function(w){
+      var c=workerColors[w.id];
+
+      return (
+        '<div class="worker" data-worker="'+w.id+'">'+
+          '<div class="avatar" style="background:'+c+'33;color:'+c+';box-shadow:0 0 0 2px '+c+'">'+
+            initials(w.display_name)+
+          '</div>'+
+          '<div>'+
+            '<b>'+esc(w.display_name)+'</b>'+
+            '<small>'+
+              esc(w.mode)+' · '+esc(w.tracking_state)+' · '+
+              new Date(w.last_seen).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+
+            '</small>'+
+          '</div>'+
+          tag(w.tracking_state)+
+        '</div>'
+      );
+    }).join('')||'<p class="muted">No workers have joined yet.</p>';
+
+    rows.forEach(function(w){
+      if(w.lat===null||w.lng===null)return;
+
+      var c=workerColors[w.id];
+      var pt=[w.lat,w.lng];
+      var popup=
+        '<b>'+esc(w.display_name)+'</b><br>'+
+        '<span style="color:'+c+'">● route color</span><br>'+
+        esc(w.mode)+' · '+esc(w.tracking_state);
+
+      if(!workerMarkers[w.id]){
+        workerMarkers[w.id]=L.marker(pt,{icon:icon(c)})
+          .addTo(map)
+          .bindPopup(popup);
+      }else{
+        workerMarkers[w.id].setLatLng(pt);
+        workerMarkers[w.id].setIcon(icon(c));
+        workerMarkers[w.id].setPopupContent(popup);
+      }
+    });
+
+    document.querySelectorAll('[data-worker]').forEach(function(el){
+      el.onclick=function(){
+        var marker=workerMarkers[el.dataset.worker];
+
+        if(marker){
+          map.setView(marker.getLatLng(),16);
+          marker.openPopup();
+        }
+      };
+    });
+  }
+
+  async function loadRoutes(){
+    var res=await sb
+      .from('v4b_routes')
+      .select('*')
+      .eq('campaign',CAMPAIGN)
+      .not('ended_at','is',null)
+      .order('ended_at',{ascending:false})
+      .limit(100);
+
+    if(res.error){
+      console.error(res.error);
+      $('routeOverview').innerHTML=
+        '<p class="muted">Could not load completed routes: '+esc(res.error.message)+'</p>';
+      return;
+    }
+
+    renderRouteOverview(res.data||[]);
+  }
+
+  async function loadLiveRouteLines(){
+    var res=await sb
+      .from('v4b_route_points')
+      .select('worker_id,route_id,lat,lng,recorded_at')
+      .eq('campaign',CAMPAIGN)
+      .order('recorded_at',{ascending:true})
+      .limit(10000);
+
+    if(res.error){
+      console.error(res.error);
+      return;
+    }
+
+    var groups={};
+
+    (res.data||[]).forEach(function(point){
+      var lineId=point.route_id||point.worker_id;
+
+      if(!groups[lineId]){
+        groups[lineId]={
+          worker_id:point.worker_id,
+          points:[]
+        };
+      }
+
+      groups[lineId].points.push(point);
+    });
+
+    Object.keys(groups).forEach(function(lineId){
+      var group=groups[lineId];
+      var coordinates=group.points.map(function(point){
+        return [point.lat,point.lng];
+      });
+
+      var color=workerColors[group.worker_id]||automaticWorkerColor(group.worker_id);
+      var opacity=currentFilter==='deliveries'?0:.75;
+
+      if(!routeLines[lineId]){
+        routeLines[lineId]=L.polyline(coordinates,{
+          color:color,
+          weight:4,
+          opacity:opacity
+        }).addTo(map);
+      }else{
+        routeLines[lineId].setLatLngs(coordinates);
+        routeLines[lineId].setStyle({
+          color:color,
+          opacity:opacity
+        });
+      }
+    });
+  }
+
+  async function loadDeliveries(){
+    var res=await sb
+      .from('v4b_delivery_entries')
+      .select('*')
+      .eq('campaign',CAMPAIGN)
+      .order('created_at',{ascending:false})
+      .limit(1000);
+
+    if(res.error){
+      console.error(res.error);
+      return;
+    }
+
+    var rows=res.data||[];
+    var counts={
+      Delivered:0,
+      Partial:0,
+      'Not delivered':0,
+      Skipped:0
+    };
+
+    rows.forEach(function(x){
+      counts[x.delivery_status]=(counts[x.delivery_status]||0)+1;
+    });
+
+    $('delivered').textContent=counts.Delivered;
+    $('partial').textContent=counts.Partial;
+    $('notDelivered').textContent=counts['Not delivered'];
+    $('skipped').textContent=counts.Skipped;
+    $('updates').textContent=rows.length;
+
+    $('summary').textContent=
+      counts.Delivered+' delivered · '+
+      counts.Partial+' partial · '+
+      counts['Not delivered']+' not delivered · '+
+      counts.Skipped+' skipped';
+
+    $('log').innerHTML=rows.slice(0,35).map(function(x){
+      return (
+        '<div class="entry">'+
+          '<b>'+esc(x.worker_name)+'</b>'+
+          '<span class="badge '+cls(x.delivery_status)+'">'+esc(x.delivery_status)+'</span>'+
+          '<small>'+
+            esc(x.note||'No note')+' · '+
+            new Date(x.created_at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+
+          '</small>'+
+        '</div>'
+      );
+    }).join('')||'<p class="muted">No delivery activity yet.</p>';
+
+    deliveryLayer.clearLayers();
+
+    if(currentFilter!=='routes'){
+      rows.forEach(function(x){
+        L.circleMarker([x.lat,x.lng],{
+          radius:7,
+          color:'#fff',
+          weight:2,
+          fillColor:deliveryColor(x.delivery_status),
+          fillOpacity:1
+        })
+        .addTo(deliveryLayer)
+        .bindPopup(
+          '<b>'+esc(x.delivery_status)+'</b><br>'+
+          esc(x.worker_name)+'<br>'+
+          esc(x.note||'')
+        );
       });
     }
+  }
+
+  function loadAll(){
+    loadWorkers().then(function(){
+      loadRoutes();
+      loadLiveRouteLines();
+    });
+
+    loadDeliveries();
+  }
+
+  function subscribe(){
+    sb.channel('v4b-manager-live')
+      .on('postgres_changes',{
+        event:'*',
+        schema:'public',
+        table:'v4b_workers'
+      },function(){
+        loadWorkers().then(function(){
+          loadLiveRouteLines();
+          loadRoutes();
+        });
+      })
+      .on('postgres_changes',{
+        event:'INSERT',
+        schema:'public',
+        table:'v4b_route_points'
+      },function(){
+        loadLiveRouteLines();
+      })
+      .on('postgres_changes',{
+        event:'*',
+        schema:'public',
+        table:'v4b_routes'
+      },function(){
+        loadRoutes();
+      })
+      .on('postgres_changes',{
+        event:'INSERT',
+        schema:'public',
+        table:'v4b_delivery_entries'
+      },function(){
+        loadDeliveries();
+      })
+      .subscribe();
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(function(button){
+    button.onclick=function(){
+      currentFilter=button.dataset.filter;
+
+      document.querySelectorAll('[data-filter]').forEach(function(x){
+        x.classList.toggle('active',x===button);
+      });
+
+      loadLiveRouteLines();
+      loadDeliveries();
+    };
   });
-}
-async function loadDeliveries(){var res=await sb.from('v4b_delivery_entries').select('*').eq('campaign',CAMPAIGN).order('created_at',{ascending:false}).limit(1000);if(res.error){console.error(res.error);return}var rows=res.data||[],c={Delivered:0,Partial:0,'Not delivered':0,Skipped:0};rows.forEach(function(x){c[x.delivery_status]=(c[x.delivery_status]||0)+1});$('delivered').textContent=c.Delivered;$('partial').textContent=c.Partial;$('notDelivered').textContent=c['Not delivered'];$('skipped').textContent=c.Skipped;$('updates').textContent=rows.length;$('summary').textContent=c.Delivered+' delivered · '+c.Partial+' partial · '+c['Not delivered']+' not delivered · '+c.Skipped+' skipped';$('log').innerHTML=rows.slice(0,35).map(function(x){return '<div class="entry"><b>'+esc(x.worker_name)+'</b><span class="badge '+cls(x.delivery_status)+'">'+esc(x.delivery_status)+'</span><small>'+esc(x.note||'No note')+' · '+new Date(x.created_at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'</small></div>'}).join('')||'<p class="muted">No delivery activity yet.</p>';deliveryLayer.clearLayers();if(currentFilter!=='routes')rows.forEach(function(x){L.circleMarker([x.lat,x.lng],{radius:7,color:'#fff',weight:2,fillColor:deliveryColor(x.delivery_status),fillOpacity:1}).addTo(deliveryLayer).bindPopup('<b>'+esc(x.delivery_status)+'</b><br>'+esc(x.worker_name)+'<br>'+esc(x.note||''))})}
-function loadAll(){loadWorkers().then(loadRoutes);loadDeliveries()}
-function subscribe(){sb.channel('v4b-manager-color').on('postgres_changes',{event:'*',schema:'public',table:'v4b_workers'},function(){loadWorkers().then(loadRoutes)}).on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_route_points'},loadRoutes).on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_delivery_entries'},loadDeliveries).subscribe()}
-document.querySelectorAll('[data-filter]').forEach(function(b){b.onclick=function(){currentFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(function(x){x.classList.toggle('active',x===b)});loadRoutes();loadDeliveries()}});$('export').onclick=async function(){var res=await sb.from('v4b_delivery_entries').select('*').eq('campaign',CAMPAIGN).order('created_at',{ascending:false});if(res.error){alert(res.error.message);return}var rows=[['time','worker','status','note','latitude','longitude']].concat((res.data||[]).map(function(x){return[x.created_at,x.worker_name,x.delivery_status,x.note,x.lat,x.lng]}));var csv=rows.map(function(row){return row.map(function(v){return '"'+String(v===null?'':v).replaceAll('"','""')+'"'}).join(',')}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='vote4bowdy-deliveries.csv';a.click();URL.revokeObjectURL(a.href)};init();
+
+  $('export').onclick=async function(){
+    var res=await sb
+      .from('v4b_delivery_entries')
+      .select('*')
+      .eq('campaign',CAMPAIGN)
+      .order('created_at',{ascending:false});
+
+    if(res.error){
+      alert(res.error.message);
+      return;
+    }
+
+    var rows=[
+      ['time','worker','status','note','latitude','longitude']
+    ].concat(
+      (res.data||[]).map(function(x){
+        return [
+          x.created_at,
+          x.worker_name,
+          x.delivery_status,
+          x.note,
+          x.lat,
+          x.lng
+        ];
+      })
+    );
+
+    var csv=rows.map(function(row){
+      return row.map(function(v){
+        return '"'+String(v===null?'':v).replaceAll('"','""')+'"';
+      }).join(',');
+    }).join('\n');
+
+    var link=document.createElement('a');
+    link.href=URL.createObjectURL(
+      new Blob([csv],{type:'text/csv'})
+    );
+    link.download='vote4bowdy-deliveries.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  };
+
+  init();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
