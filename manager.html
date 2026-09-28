@@ -8,7 +8,40 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
-:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:62px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line)}.brand{font-size:20px;font-weight:850}.brand small{display:block;color:#9cacbf;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.live{background:#113624;color:#c3f7d9;padding:7px 10px;border-radius:16px;font-size:12px;font-weight:800}.live:before{content:'●';color:var(--green);margin-right:6px}main{display:grid;grid-template-columns:300px 1fr 290px;min-height:0}aside{overflow:auto;background:var(--panel);padding:16px;border-right:1px solid var(--line)}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{color:var(--muted);font-size:12px;line-height:1.45}.card{margin:11px 0;background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#1a2940;padding:9px;border-radius:9px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:#aab9cd}.worker{padding:10px 0;border-top:1px solid #283a57;display:flex;gap:8px;align-items:center;cursor:pointer}.worker:hover{background:#17243a}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;padding:4px 6px;border-radius:9px;background:#143b28;color:#bdf8d8;font-size:9px;font-weight:900}.tag.off{background:#2d384a;color:#d3deeb}.tag.pause{background:#46391b;color:#ffdf91}.maplabel{position:absolute;z-index:1000;top:14px;left:14px;background:#0d1727e8;border:1px solid #38506f;border-radius:10px;padding:9px 11px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.legend{position:absolute;z-index:1000;bottom:15px;left:15px;background:#0d1727e8;border:1px solid #38506f;border-radius:9px;padding:8px 10px;font-size:11px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 4px 0 9px}.legend i:first-child{margin-left:0}.entry{padding:10px 0;border-top:1px solid #283a57}.entry b{display:block;font-size:12px}.entry small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.badge{display:inline-block;font-size:9px;font-weight:900;border-radius:8px;padding:3px 6px;margin-top:5px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}.toolbar{display:flex;gap:6px;margin-top:9px}.toolbar button{flex:1;background:#22314a;color:#e7eef8;border:1px solid #354b6a;border-radius:8px;padding:8px;font-size:11px;font-weight:800;cursor:pointer}.toolbar .active{background:#173f71;border-color:#5494e2}.export{width:100%;margin-top:12px;border:0;border-radius:9px;background:linear-gradient(135deg,#e7334a,#ed5f42);padding:10px;color:#fff;font-weight:850;cursor:pointer}.route-summary{margin-top:8px;padding:11px;border:1px solid #2b3f60;border-left:4px solid var(--route-color,#67b7ff);border-radius:9px;background:#152137}.route-summary b{display:block;font-size:13px}.route-summary small{display:block;margin-top:4px;color:var(--muted);font-size:10px;line-height:1.45}.route-summary .route-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}.route-summary .route-metric{padding:6px;border-radius:6px;background:#0c1524;color:#cbd6e5;font-size:10px}.route-summary .route-metric b{color:#fff;font-size:12px}.estimate-button{width:100%;margin-top:8px;padding:8px;border-radius:7px;border:1px solid #42668f;background:#1c324d;color:#b7d9ff;font-size:11px;font-weight:800;cursor:not-allowed;opacity:.72}.estimate-button.done{border-color:#2f805a;background:#153b29;color:#bdf8d8;cursor:default;opacity:1}.estimate-note{margin-top:7px;color:#91a4c2;font-size:9px;line-height:1.35}@media(max-width:850px){main{grid-template-columns:285px 1fr}.right{display:none}}@media(max-width:620px){.app{grid-template-rows:54px 1fr}main{display:block}.mapwrap{height:100%}aside{position:absolute;z-index:1001;bottom:0;left:0;right:0;height:43vh;padding:13px;border-radius:18px 18px 0 0;border:1px solid var(--line)}.right{display:none}.legend{bottom:44vh}.maplabel{top:10px;left:10px}}
+:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:62px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line)}.brand{font-size:20px;font-weight:850}.brand small{display:block;color:#9cacbf;font-size:10px;text-transform:uppercase;letter-spacing:.1em}.live{background:#113624;color:#c3f7d9;padding:7px 10px;border-radius:16px;font-size:12px;font-weight:800}.live:before{content:'●';color:var(--green);margin-right:6px}main{display:grid;grid-template-columns:300px 1fr 290px;min-height:0}aside{overflow:auto;background:var(--panel);padding:16px;border-right:1px solid var(--line)}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{color:var(--muted);font-size:12px;line-height:1.45}.card{margin:11px 0;background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#1a2940;padding:9px;border-radius:9px}.stat b{display:block;font-size:19px}.stat span{font-size:10px;color:#aab9cd}.worker{padding:10px 0;border-top:1px solid #283a57;display:flex;gap:8px;align-items:center;cursor:pointer}.worker:hover{background:#17243a}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;padding:4px 6px;border-radius:9px;background:#143b28;color:#bdf8d8;font-size:9px;font-weight:900}.tag.off{background:#2d384a;color:#d3deeb}.tag.pause{background:#46391b;color:#ffdf91}.maplabel{position:absolute;z-index:1000;top:14px;left:14px;background:#0d1727e8;border:1px solid #38506f;border-radius:10px;padding:9px 11px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.legend{position:absolute;z-index:1000;bottom:15px;left:15px;background:#0d1727e8;border:1px solid #38506f;border-radius:9px;padding:8px 10px;font-size:11px}.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 4px 0 9px}.legend i:first-child{margin-left:0}.entry{padding:10px 0;border-top:1px solid #283a57}.entry b{display:block;font-size:12px}.entry small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.badge{display:inline-block;font-size:9px;font-weight:900;border-radius:8px;padding:3px 6px;margin-top:5px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}.toolbar{display:flex;gap:6px;margin-top:9px}.toolbar button{flex:1;background:#22314a;color:#e7eef8;border:1px solid #354b6a;border-radius:8px;padding:8px;font-size:11px;font-weight:800;cursor:pointer}.toolbar .active{background:#173f71;border-color:#5494e2}.export{width:100%;margin-top:12px;border:0;border-radius:9px;background:linear-gradient(135deg,#e7334a,#ed5f42);padding:10px;color:#fff;font-weight:850;cursor:pointer}.route-summary{margin-top:8px;padding:11px;border:1px solid #2b3f60;border-left:4px solid var(--route-color,#67b7ff);border-radius:9px;background:#152137}.route-summary b{display:block;font-size:13px}.route-summary small{display:block;margin-top:4px;color:var(--muted);font-size:10px;line-height:1.45}.route-summary .route-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}.route-summary .route-metric{padding:6px;border-radius:6px;background:#0c1524;color:#cbd6e5;font-size:10px}.route-summary .route-metric b{color:#fff;font-size:12px}.estimate-button{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border-radius:7px;
+  border:1px solid #42668f;
+  background:#1c324d;
+  color:#b7d9ff;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.estimate-button:hover{
+  background:#254565;
+}
+
+.estimate-button:disabled{
+  cursor:not-allowed;
+  opacity:.72;
+}
+
+.estimate-button.loading{
+  cursor:wait;
+  opacity:.72;
+}
+
+.estimate-button.done{
+  border-color:#2f805a;
+  background:#153b29;
+  color:#bdf8d8;
+  cursor:default;
+  opacity:1;
+}.estimate-button.done{border-color:#2f805a;background:#153b29;color:#bdf8d8;cursor:default;opacity:1}.estimate-note{margin-top:7px;color:#91a4c2;font-size:9px;line-height:1.35}@media(max-width:850px){main{grid-template-columns:285px 1fr}.right{display:none}}@media(max-width:620px){.app{grid-template-rows:54px 1fr}main{display:block}.mapwrap{height:100%}aside{position:absolute;z-index:1001;bottom:0;left:0;right:0;height:43vh;padding:13px;border-radius:18px 18px 0 0;border:1px solid var(--line)}.right{display:none}.legend{bottom:44vh}.maplabel{top:10px;left:10px}}
 </style>
 </head>
 
@@ -204,9 +237,9 @@
         ? String(route.estimated_houses_passed)
         : 'Not calculated';
 
-      var estimateButton=hasEstimate
-        ? '<button class="estimate-button done" disabled>✓ Census estimate saved</button>'
-        : '<button class="estimate-button" disabled title="Census estimator will be connected next">Estimate houses passed — coming next</button>';
+var estimateButton=hasEstimate
+  ? '<button class="estimate-button done" disabled>✓ Census estimate saved</button>'
+  : '<button class="estimate-button estimate-route" data-route-id="'+route.id+'">Estimate houses passed</button>';
 
       return (
         '<div class="route-summary" style="--route-color:'+color+'">'+
@@ -230,7 +263,49 @@
           '</div>'+
         '</div>'
       );
-    }).join('');
+     }).join('');
+
+    document.querySelectorAll('.estimate-route').forEach(function(button){
+      button.onclick=async function(){
+        var routeId=button.dataset.routeId;
+
+        button.disabled=true;
+        button.classList.add('loading');
+
+        var originalText=button.textContent;
+        button.textContent='Calculating Census estimate…';
+
+        try{
+          var result=await sb.functions.invoke(
+            'estimate-houses-passed',
+            {
+              body:{route_id:routeId}
+            }
+          );
+
+          if(result.error){
+            throw result.error;
+          }
+
+          if(result.data && result.data.error){
+            throw new Error(result.data.error);
+          }
+
+          button.textContent='Estimate saved';
+          loadRoutes();
+        }catch(error){
+          console.error(error);
+          button.disabled=false;
+          button.classList.remove('loading');
+          button.textContent=originalText;
+
+          alert(
+            'Could not calculate the estimate: '+
+            (error.message||'Unknown error')
+          );
+        }
+      };
+    });
   }
 
   function init(){
