@@ -30,6 +30,7 @@ const $=x=>document.getElementById(x),CAMPAIGN='jeffersontown';let sb,map,myMark
     await sb.from('v4b_route_points').insert({
       campaign:CAMPAIGN,
       worker_id:id,
+      route_id:activeRouteId,
       lat:ll.lat,
       lng:ll.lng,
       accuracy:p.coords.accuracy,
