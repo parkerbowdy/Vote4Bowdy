@@ -42,11 +42,14 @@ const $=x=>document.getElementById(x),CAMPAIGN='jeffersontown';let sb,map,myMark
   }
 }}catch(e){$('gps').innerHTML='<b>Database error.</b>'+esc(e.message)}}function geoErr(e){$('gps').innerHTML='<b>Location unavailable.</b>'+({1:' Permission denied.',2:' Position unavailable.',3:' Location timed out.'}[e.code]||' Unable to access GPS.')}function clock(){let s=Math.floor((Date.now()-started)/1000);$('time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}async function start(){
   try{
-    await worker();
+if(!activeRouteId){
+  activeRouteId=crypto.randomUUID();
+  localStorage.setItem('v4bActiveRouteId',activeRouteId);
+}
 
-    if(!activeRouteId){
-      activeRouteId=crypto.randomUUID();
-      localStorage.setItem('v4bActiveRouteId',activeRouteId);
+$('gps').innerHTML =
+  '<b>Route ID created:</b><br>' +
+  esc(activeRouteId);
     }if(!navigator.geolocation)throw Error('GPS is not supported by this browser.');if(watch===null){watch=navigator.geolocation.watchPosition(position,geoErr,{enableHighAccuracy:true,maximumAge:5000,timeout:15000});if(!started)started=Date.now();if(!timer)timer=setInterval(clock,1000);$('state').className='state live';$('state').textContent='Tracking live';$('gps').innerHTML='<b style="color:#bdf8d8">Tracking active.</b>Your location and route are syncing to the team map.'}}catch(e){$('gps').innerHTML='<b>Cannot start.</b>'+esc(e.message)}}async function pause(){if(watch!==null){navigator.geolocation.clearWatch(watch);watch=null;await update({tracking_state:'paused'});$('state').className='state';$('state').textContent='Tracking paused'}}async function stop(){
   if(watch!==null)navigator.geolocation.clearWatch(watch);
 
