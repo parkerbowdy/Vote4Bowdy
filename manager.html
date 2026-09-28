@@ -8,25 +8,27 @@ function esc(v){return String(v||'').replace(/[&<>"']/g,function(c){return {'&':
 function initials(n){return String(n||'?').split(/\s+/).map(function(x){return x.charAt(0)}).join('').slice(0,2).toUpperCase()}
 function automaticWorkerColor(workerId){
   var colors=[
+    '#ff6575',
     '#36d8f3',
     '#ffc44d',
     '#bd87ff',
     '#77e6a9',
     '#ff9f67',
     '#67b7ff',
-    '#ff6575'
+    '#ff6ec7',
+    '#66d9b8',
+    '#a8e05f',
+    '#c994ff',
+    '#ffb86b'
   ];
-
-  var total=0;
+  var hash=0;
   var id=String(workerId||'worker');
-
   for(var i=0;i<id.length;i++){
-    total+=id.charCodeAt(i);
+    hash=((hash<<5)-hash)+id.charCodeAt(i);
+    hash=hash|0;
   }
-
-  return colors[total%colors.length];
+  return colors[Math.abs(hash)%colors.length];
 }
-
 function cleanColor(color,workerId){
   return /^#[0-9a-fA-F]{6}$/.test(String(color||''))
     ? color
