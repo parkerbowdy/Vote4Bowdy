@@ -1,8 +1,1425 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vote4Bowdy | Field Map</title><link rel="icon" href="data:,"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>
-:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:60px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line);z-index:5}.brand{font-size:20px;font-weight:850}.brand small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9cacbf}.state{border-radius:18px;background:#2d394d;padding:7px 10px;font-size:12px;font-weight:800}.state.live{color:#bdf8d8;background:#123824}.state.live:before{content:'●';margin-right:6px;color:var(--green)}main{display:grid;grid-template-columns:305px 1fr 285px;min-height:0}aside{background:var(--panel);padding:16px;border-right:1px solid var(--line);overflow:auto}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{font-size:12px;color:var(--muted);line-height:1.45}.card{background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px;margin:11px 0}button,input,textarea{font:inherit}button{border:0;border-radius:8px;padding:10px 8px;font-weight:800;cursor:pointer}.name{display:flex;gap:6px;margin:8px 0}.name input{min-width:0;flex:1;padding:9px;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff}.name button{background:#354a6a;color:#fff}.modes,.controls{display:grid;gap:7px}.modes{grid-template-columns:1fr 1fr;margin-top:8px}.modes button{color:#e7eef8;background:#22314a;border:1px solid #344b6c}.modes button.active{background:#173f71;border-color:#5494e2}.controls{grid-template-columns:1.2fr 1fr 1fr;margin-top:8px}.start{background:var(--green);color:#062514}.pause{background:#2b3d5a;color:#fff}.stop{background:#4a2734;color:#ffdee2}.notice{font-size:12px;line-height:1.4;background:#152137;border:1px solid #2b3f60;border-radius:9px;padding:10px;margin-top:10px}.notice b{display:block}.delivery{margin-top:14px;border-top:1px solid #2b3f60;padding-top:14px}.statusgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.statusgrid button{font-size:12px;min-height:42px}.statusgrid button:nth-child(1){background:var(--green);color:#062514}.statusgrid button:nth-child(2){background:var(--amber);color:#342600}.statusgrid button:nth-child(3){background:var(--red);color:#fff}.statusgrid button:nth-child(4){background:var(--purple);color:#251235}.statusgrid .selected{outline:2px solid #fff;outline-offset:2px}.note{margin-top:8px;width:100%;min-height:58px;resize:vertical;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff;padding:9px}.save{width:100%;background:linear-gradient(135deg,#e7334a,#ed5f42);color:white;margin-top:7px;min-height:43px}.metricrow{position:absolute;z-index:1000;bottom:15px;left:15px;display:flex;gap:7px}.metric{padding:7px 9px;border:1px solid #38506f;border-radius:9px;background:#0d1727e8}.metric b{display:block}.metric span{font-size:10px;color:#bac7d8}.maplabel{position:absolute;z-index:1000;top:13px;left:13px;background:#0d1727e8;border:1px solid #38506f;padding:8px 10px;border-radius:9px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.worker{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #283a57}.avatar{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;border-radius:9px;padding:4px 6px;font-size:9px;font-weight:900;background:#143b28;color:#bdf8d8}.entry{padding:9px 0;border-top:1px solid #283a57}.entry b{font-size:12px;display:block}.entry small{font-size:10px;color:var(--muted)}.badge{display:inline-block;font-size:9px;font-weight:900;margin-top:4px;padding:3px 6px;border-radius:8px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}@media(max-width:850px){main{grid-template-columns:300px 1fr}.right{display:none}}@media(max-width:620px){html,body{height:100%;overflow:hidden}.app{height:100dvh;grid-template-rows:54px 1fr}header{padding:0 12px}.brand{font-size:17px}.brand small{font-size:9px}main{display:block;position:relative}.mapwrap{position:absolute;inset:0;height:100%}#map{height:100%}aside:not(.right){position:absolute;z-index:1001;left:0;right:0;bottom:0;height:min(62dvh,560px);max-height:calc(100dvh - 54px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;padding:14px 14px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 34px rgba(0,0,0,.35)}.right{display:none}.controls{position:sticky;bottom:0;z-index:4;background:var(--panel);padding:9px 0}.controls button,.modes button,.statusgrid button,.name input,.name button,.save{min-height:44px}.delivery{padding-bottom:8px}.metricrow{bottom:calc(min(62dvh,560px) + 9px);left:8px;right:8px;gap:5px}.metric{flex:1;text-align:center;padding:6px 3px}.maplabel{top:9px;left:9px;right:9px}.leaflet-control-zoom{margin-top:70px!important}.leaflet-control-attribution{display:none}.notice{display:block}}
-</style></head><body><div class="app"><header><div class="brand">✓ Vote4Bowdy<small>Jeffersontown Field Operations</small></div><div id="state" class="state">Not tracking</div></header><main><aside><div class="eyebrow">Your session</div><h2 style="margin:3px 0">Field Distributor</h2><div class="name"><input id="name" name="displayName" autocomplete="name" maxlength="40" placeholder="Your display name"><button id="saveName">Save</button></div><div class="muted">Jeffersontown City Limits campaign</div><div class="card"><b>Travel mode</b><div class="modes"><button id="walk" class="active">🚶 Walking</button><button id="drive">🚗 Driving</button></div></div><div class="eyebrow">Live GPS tracking</div><div class="controls"><button id="start" class="start">Start</button><button id="pause" class="pause">Pause</button><button id="stop" class="stop">Stop</button></div><div class="notice" id="gps"><b>Ready to track</b>Enter your name, press Start, and allow location access.</div><div class="delivery"><div class="eyebrow">Delivery status</div><p id="selection" class="muted">1. Tap the map to select a location. 2. Choose a delivery status. 3. Save it.</p><div class="statusgrid"><button data-s="Delivered">✓ Delivered</button><button data-s="Partial">◐ Partial</button><button data-s="Not delivered">✕ Not delivered</button><button data-s="Skipped">↷ Skipped</button></div><textarea id="note" class="note" placeholder="Optional delivery note"></textarea><button id="saveDelivery" class="save">Save delivery status</button></div></aside><section class="mapwrap"><div id="map"></div><div class="maplabel"><b>Jeffersontown, Kentucky</b><span>Tap map, then mark delivery status below</span></div><div class="metricrow"><div class="metric"><b id="miles">0.00 mi</b><span>Distance</span></div><div class="metric"><b id="time">0:00</b><span>Tracking time</span></div><div class="metric"><b id="count">0</b><span>GPS updates</span></div></div></section><aside class="right"><h3 style="margin:0">Team activity</h3><p class="muted">Live shared campaign data.</p><div class="eyebrow">Team members</div><div id="workers"><p class="muted">Loading team…</p></div><div class="eyebrow" style="margin-top:14px">Recent delivery log</div><div id="log"><p class="muted">Loading delivery records…</p></div></aside></main></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="vote4bowdy-config.js"></script><script>
-const $=x=>document.getElementById(x),CAMPAIGN='jeffersontown';let sb,map,myMarker,chosenMarker,chosen=null,status='Delivered',workerId=localStorage.v4bWorkerId||null,mode=localStorage.v4bMode||'walking',watch=null,route=[],routeLine,meters=0,started=null,timer=null,teamMarkers={},teamLines={},deliveryLayer;function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function col(id){let n=0;for(const x of(id||'x'))n+=x.charCodeAt(0);return ['#ff6575','#36d8f3','#ffc44d','#bd87ff','#77e6a9'][n%5]}function dot(c){return L.divIcon({className:'',html:'<div style="width:18px;height:18px;border-radius:50%;background:'+c+';border:3px solid white;box-shadow:0 0 0 4px '+c+'55"></div>',iconSize:[18,18],iconAnchor:[9,9]})}function init(){if(!window.L||!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){$('gps').innerHTML='<b>Setup issue.</b>Map or Supabase configuration did not load.';return}try{sb=supabase.createClient(String(window.V4B_SUPABASE_URL).trim(),String(window.V4B_SUPABASE_KEY).trim())}catch(e){$('gps').innerHTML='<b>Setup issue.</b>'+e.message;return}map=L.map('map').setView([38.19370,-85.56637],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);routeLine=L.polyline([],{color:'#ff6575',weight:5}).addTo(map);deliveryLayer=L.layerGroup().addTo(map);map.on('click',e=>{chosen=e.latlng;if(chosenMarker)chosenMarker.remove();chosenMarker=L.marker(chosen,{icon:dot('#ffc44d')}).addTo(map);$('selection').textContent='Selected location. Now choose Delivered, Partial, Not delivered, or Skipped, then tap Save.'});setTimeout(()=>map.invalidateSize(),500);loadAll();subscribe()}function dist(a,b){let R=6371000,q=Math.PI/180,la=a.lat*q,lb=b.lat*q,dl=(b.lat-a.lat)*q,doa=(b.lng-a.lng)*q,h=Math.sin(dl/2)**2+Math.cos(la)*Math.cos(lb)*Math.sin(doa/2)**2;return 2*R*Math.asin(Math.sqrt(h))}async function worker(){let name=$('name').value.trim()||localStorage.v4bName||'Field Distributor';$('name').value=name;localStorage.v4bName=name;if(workerId)return workerId;let{data,error}=await sb.from('v4b_workers').insert({campaign:CAMPAIGN,display_name:name,mode,tracking_state:'stopped'}).select().single();if(error)throw error;workerId=data.id;localStorage.v4bWorkerId=workerId;return workerId}async function update(fields){let id=await worker();let{error}=await sb.from('v4b_workers').update({...fields,display_name:$('name').value.trim()||'Field Distributor',mode,last_seen:new Date().toISOString()}).eq('id',id);if(error)throw error}async function position(p){let ll=L.latLng(p.coords.latitude,p.coords.longitude);if(route.length)meters+=dist(route[route.length-1],ll);route.push(ll);routeLine.setLatLngs(route);if(!myMarker)myMarker=L.marker(ll,{icon:dot('#ff6575')}).addTo(map);else myMarker.setLatLng(ll);map.panTo(ll);$('miles').textContent=(meters/1609.344).toFixed(2)+' mi';$('count').textContent=route.length;try{let id=await worker();await update({lat:ll.lat,lng:ll.lng,accuracy:p.coords.accuracy,tracking_state:'tracking'});await sb.from('v4b_route_points').insert({campaign:CAMPAIGN,worker_id:id,lat:ll.lat,lng:ll.lng,accuracy:p.coords.accuracy,inside_boundary:null})}catch(e){$('gps').innerHTML='<b>Database error.</b>'+esc(e.message)}}function geoErr(e){$('gps').innerHTML='<b>Location unavailable.</b>'+({1:' Permission denied.',2:' Position unavailable.',3:' Location timed out.'}[e.code]||' Unable to access GPS.')}function clock(){let s=Math.floor((Date.now()-started)/1000);$('time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}async function start(){try{await worker();if(!navigator.geolocation)throw Error('GPS is not supported by this browser.');if(watch===null){watch=navigator.geolocation.watchPosition(position,geoErr,{enableHighAccuracy:true,maximumAge:5000,timeout:15000});if(!started)started=Date.now();if(!timer)timer=setInterval(clock,1000);$('state').className='state live';$('state').textContent='Tracking live';$('gps').innerHTML='<b style="color:#bdf8d8">Tracking active.</b>Your location and route are syncing to the team map.'}}catch(e){$('gps').innerHTML='<b>Cannot start.</b>'+esc(e.message)}}async function pause(){if(watch!==null){navigator.geolocation.clearWatch(watch);watch=null;await update({tracking_state:'paused'});$('state').className='state';$('state').textContent='Tracking paused'}}async function stop(){if(watch!==null)navigator.geolocation.clearWatch(watch);watch=null;clearInterval(timer);timer=null;started=null;if(workerId)await update({tracking_state:'stopped'});$('state').className='state';$('state').textContent='Not tracking'}async function delivery(){if(!chosen){$('selection').textContent='Tap a map location first, then choose the delivery status.';return}try{let id=await worker(),name=$('name').value.trim()||'Field Distributor';let{error}=await sb.from('v4b_delivery_entries').insert({campaign:CAMPAIGN,worker_id:id,worker_name:name,lat:chosen.lat,lng:chosen.lng,delivery_status:status,note:$('note').value.trim()});if(error)throw error;$('note').value='';$('selection').textContent='Saved '+status+'. Tap another map location for the next delivery status.';loadDeliveries()}catch(e){$('selection').textContent='Could not save: '+e.message}}async function loadWorkers(){let{data,error}=await sb.from('v4b_workers').select('*').eq('campaign',CAMPAIGN).order('last_seen',{ascending:false});if(error)return;$('workers').innerHTML=(data||[]).map(w=>'<div class="worker"><div class="avatar" style="background:'+col(w.id)+'33;color:'+col(w.id)+'">'+esc((w.display_name||'?').slice(0,2).toUpperCase())+'</div><div><b>'+esc(w.display_name)+'</b><small>'+esc(w.mode)+' · '+esc(w.tracking_state)+'</small></div><span class="tag">'+(w.tracking_state==='tracking'?'LIVE':esc(w.tracking_state).toUpperCase())+'</span></div>').join('')||'<p class="muted">No team members yet.</p>';(data||[]).forEach(w=>{if(w.id===workerId||w.lat==null)return;let pt=L.latLng(w.lat,w.lng);if(!teamMarkers[w.id])teamMarkers[w.id]=L.marker(pt,{icon:dot(col(w.id))}).addTo(map).bindPopup('<b>'+esc(w.display_name)+'</b>');else teamMarkers[w.id].setLatLng(pt)})}async function loadRoutes(){let{data,error}=await sb.from('v4b_route_points').select('*').eq('campaign',CAMPAIGN).order('recorded_at',{ascending:true}).limit(5000);if(error)return;let groups={};(data||[]).forEach(p=>{if(p.worker_id!==workerId)(groups[p.worker_id]??=[]).push([p.lat,p.lng])});Object.entries(groups).forEach(([id,pts])=>{if(!teamLines[id])teamLines[id]=L.polyline(pts,{color:col(id),weight:4,opacity:.72}).addTo(map);else teamLines[id].setLatLngs(pts)})}async function loadDeliveries(){let{data,error}=await sb.from('v4b_delivery_entries').select('*').eq('campaign',CAMPAIGN).order('created_at',{ascending:false}).limit(50);if(error)return;$('log').innerHTML=(data||[]).map(x=>'<div class="entry"><b>'+esc(x.worker_name)+'</b><span class="badge '+x.delivery_status.replace(' ','-')+'">'+esc(x.delivery_status)+'</span><small>'+esc(x.note||'No note')+' · '+new Date(x.created_at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'</small></div>').join('')||'<p class="muted">No delivery records yet.</p>';deliveryLayer.clearLayers();(data||[]).forEach(x=>L.circleMarker([x.lat,x.lng],{radius:7,color:'#fff',weight:2,fillColor:x.delivery_status==='Delivered'?'#36df91':x.delivery_status==='Partial'?'#ffc44d':x.delivery_status==='Not delivered'?'#ff6575':'#bd87ff',fillOpacity:1}).addTo(deliveryLayer).bindPopup('<b>'+esc(x.delivery_status)+'</b><br>'+esc(x.worker_name)+'<br>'+esc(x.note||'')))}function loadAll(){loadWorkers();loadRoutes();loadDeliveries()}function subscribe(){sb.channel('vote4bowdy-live').on('postgres_changes',{event:'*',schema:'public',table:'v4b_workers'},loadWorkers).on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_route_points'},loadRoutes).on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_delivery_entries'},loadDeliveries).subscribe()}$('name').value=localStorage.v4bName||'';$('saveName').onclick=()=>{localStorage.v4bName=$('name').value.trim();if(workerId)update({})};for(const id of ['walk','drive'])$(id).onclick=()=>{mode=id==='walk'?'walking':'driving';localStorage.v4bMode=mode;$('walk').classList.toggle('active',id==='walk');$('drive').classList.toggle('active',id==='drive');if(workerId)update({mode})};$('walk').classList.toggle('active',mode==='walking');$('drive').classList.toggle('active',mode==='driving');$('start').onclick=start;$('pause').onclick=pause;$('stop').onclick=stop;document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{status=b.dataset.s;document.querySelectorAll('[data-s]').forEach(x=>x.classList.toggle('selected',x===b))});$('saveDelivery').onclick=delivery;init();
-</script>
-<script src="vote4bowdy-assigned-colors.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vote4Bowdy | Field Map</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    :root{
+      --bg:#080c14;
+      --panel:#101827;
+      --line:#293c5b;
+      --text:#f5f7fb;
+      --muted:#a4b1c6;
+      --green:#36df91;
+      --red:#ff6575;
+      --amber:#ffc44d;
+      --purple:#bd87ff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font:14px system-ui,sans-serif;
+    }
+
+    .app{
+      height:100vh;
+      display:grid;
+      grid-template-rows:60px 1fr;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 18px;
+      background:#0b101b;
+      border-bottom:1px solid var(--line);
+      z-index:5;
+    }
+
+    .brand{
+      font-size:20px;
+      font-weight:850;
+    }
+
+    .brand small{
+      display:block;
+      font-size:10px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:#9cacbf;
+    }
+
+    .state{
+      border-radius:18px;
+      background:#2d394d;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .state.live{
+      color:#bdf8d8;
+      background:#123824;
+    }
+
+    .state.live:before{
+      content:'●';
+      margin-right:6px;
+      color:var(--green);
+    }
+
+    .state.waiting{
+      color:#fff0b5;
+      background:#564318;
+    }
+
+    .state.waiting:before{
+      content:'●';
+      margin-right:6px;
+      color:var(--amber);
+    }
+
+    .state.paused{
+      color:#ffd8dd;
+      background:#54232c;
+    }
+
+    .state.paused:before{
+      content:'●';
+      margin-right:6px;
+      color:var(--red);
+    }
+
+    main{
+      display:grid;
+      grid-template-columns:305px 1fr 285px;
+      min-height:0;
+    }
+
+    aside{
+      background:var(--panel);
+      padding:16px;
+      border-right:1px solid var(--line);
+      overflow:auto;
+    }
+
+    .right{
+      border-right:0;
+      border-left:1px solid var(--line);
+    }
+
+    #map{
+      height:100%;
+      width:100%;
+      background:#15233a;
+    }
+
+    .mapwrap{
+      position:relative;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      color:#91a4c2;
+      font-weight:800;
+    }
+
+    .muted{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .card{
+      background:#152137;
+      border:1px solid #2b3f60;
+      border-radius:11px;
+      padding:12px;
+      margin:11px 0;
+    }
+
+    button,input,textarea{
+      font:inherit;
+    }
+
+    button{
+      border:0;
+      border-radius:8px;
+      padding:10px 8px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .name{
+      display:flex;
+      gap:6px;
+      margin:8px 0;
+    }
+
+    .name input{
+      min-width:0;
+      flex:1;
+      padding:9px;
+      background:#0c1524;
+      border:1px solid #344b6c;
+      border-radius:8px;
+      color:#fff;
+    }
+
+    .name button{
+      background:#354a6a;
+      color:#fff;
+    }
+
+    .modes,.controls{
+      display:grid;
+      gap:7px;
+    }
+
+    .modes{
+      grid-template-columns:1fr 1fr;
+      margin-top:8px;
+    }
+
+    .modes button{
+      color:#e7eef8;
+      background:#22314a;
+      border:1px solid #344b6c;
+    }
+
+    .modes button.active{
+      background:#173f71;
+      border-color:#5494e2;
+    }
+
+    .controls{
+      grid-template-columns:1.2fr 1fr 1fr;
+      margin-top:8px;
+    }
+
+    .start{
+      background:var(--green);
+      color:#062514;
+    }
+
+    .pause{
+      background:#2b3d5a;
+      color:#fff;
+    }
+
+    .stop{
+      background:#4a2734;
+      color:#ffdee2;
+    }
+
+    .notice{
+      font-size:12px;
+      line-height:1.4;
+      background:#152137;
+      border:1px solid #2b3f60;
+      border-radius:9px;
+      padding:10px;
+      margin-top:10px;
+    }
+
+    .notice b{
+      display:block;
+    }
+
+    .delivery{
+      margin-top:14px;
+      border-top:1px solid #2b3f60;
+      padding-top:14px;
+    }
+
+    .statusgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+      margin-top:8px;
+    }
+
+    .statusgrid button{
+      font-size:12px;
+      min-height:42px;
+    }
+
+    .statusgrid button:nth-child(1){
+      background:var(--green);
+      color:#062514;
+    }
+
+    .statusgrid button:nth-child(2){
+      background:var(--amber);
+      color:#342600;
+    }
+
+    .statusgrid button:nth-child(3){
+      background:var(--red);
+      color:#fff;
+    }
+
+    .statusgrid button:nth-child(4){
+      background:var(--purple);
+      color:#251235;
+    }
+
+    .statusgrid .selected{
+      outline:2px solid #fff;
+      outline-offset:2px;
+    }
+
+    .note{
+      margin-top:8px;
+      width:100%;
+      min-height:58px;
+      resize:vertical;
+      background:#0c1524;
+      border:1px solid #344b6c;
+      border-radius:8px;
+      color:#fff;
+      padding:9px;
+    }
+
+    .save{
+      width:100%;
+      background:linear-gradient(135deg,#e7334a,#ed5f42);
+      color:white;
+      margin-top:7px;
+      min-height:43px;
+    }
+
+    .metricrow{
+      position:absolute;
+      z-index:1000;
+      bottom:15px;
+      left:15px;
+      display:flex;
+      gap:7px;
+    }
+
+    .metric{
+      padding:7px 9px;
+      border:1px solid #38506f;
+      border-radius:9px;
+      background:#0d1727e8;
+    }
+
+    .metric b{
+      display:block;
+    }
+
+    .metric span{
+      font-size:10px;
+      color:#bac7d8;
+    }
+
+    .maplabel{
+      position:absolute;
+      z-index:1000;
+      top:13px;
+      left:13px;
+      background:#0d1727e8;
+      border:1px solid #38506f;
+      padding:8px 10px;
+      border-radius:9px;
+    }
+
+    .maplabel b{
+      display:block;
+      font-size:13px;
+    }
+
+    .maplabel span{
+      font-size:11px;
+      color:#b7c4d6;
+    }
+
+    .worker{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 0;
+      border-top:1px solid #283a57;
+    }
+
+    .avatar{
+      width:32px;
+      height:32px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .worker b{
+      display:block;
+      font-size:13px;
+    }
+
+    .worker small{
+      font-size:10px;
+      color:var(--muted);
+    }
+
+    .tag{
+      margin-left:auto;
+      border-radius:9px;
+      padding:4px 6px;
+      font-size:9px;
+      font-weight:900;
+      background:#143b28;
+      color:#bdf8d8;
+    }
+
+    .entry{
+      padding:9px 0;
+      border-top:1px solid #283a57;
+    }
+
+    .entry b{
+      font-size:12px;
+      display:block;
+    }
+
+    .entry small{
+      font-size:10px;
+      color:var(--muted);
+    }
+
+    .badge{
+      display:inline-block;
+      font-size:9px;
+      font-weight:900;
+      margin-top:4px;
+      padding:3px 6px;
+      border-radius:8px;
+    }
+
+    .Delivered{
+      background:#153b29;
+      color:#aef6d1;
+    }
+
+    .Partial{
+      background:#493b18;
+      color:#ffe099;
+    }
+
+    .Not-delivered{
+      background:#4b2530;
+      color:#ffc3cb;
+    }
+
+    .Skipped{
+      background:#3b294f;
+      color:#dcc1ff;
+    }
+
+    @media(max-width:850px){
+      main{
+        grid-template-columns:300px 1fr;
+      }
+
+      .right{
+        display:none;
+      }
+    }
+
+    @media(max-width:620px){
+      html,body{
+        height:100%;
+        overflow:hidden;
+      }
+
+      .app{
+        height:100dvh;
+        grid-template-rows:54px 1fr;
+      }
+
+      header{
+        padding:0 12px;
+      }
+
+      .brand{
+        font-size:17px;
+      }
+
+      .brand small{
+        font-size:9px;
+      }
+
+      main{
+        display:block;
+        position:relative;
+      }
+
+      .mapwrap{
+        position:absolute;
+        inset:0;
+        height:100%;
+      }
+
+      #map{
+        height:100%;
+      }
+
+      aside:not(.right){
+        position:absolute;
+        z-index:1001;
+        left:0;
+        right:0;
+        bottom:0;
+        height:min(62dvh,560px);
+        max-height:calc(100dvh - 54px);
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior:contain;
+        border:1px solid var(--line);
+        border-bottom:0;
+        border-radius:18px 18px 0 0;
+        padding:14px 14px calc(22px + env(safe-area-inset-bottom));
+        box-shadow:0 -12px 34px rgba(0,0,0,.35);
+      }
+
+      .right{
+        display:none;
+      }
+
+      .controls{
+        position:sticky;
+        bottom:0;
+        z-index:4;
+        background:var(--panel);
+        padding:9px 0;
+      }
+
+      .controls button,
+      .modes button,
+      .statusgrid button,
+      .name input,
+      .name button,
+      .save{
+        min-height:44px;
+      }
+
+      .delivery{
+        padding-bottom:8px;
+      }
+
+      .metricrow{
+        bottom:calc(min(62dvh,560px) + 9px);
+        left:8px;
+        right:8px;
+        gap:5px;
+      }
+
+      .metric{
+        flex:1;
+        text-align:center;
+        padding:6px 3px;
+      }
+
+      .maplabel{
+        top:9px;
+        left:9px;
+        right:9px;
+      }
+
+      .leaflet-control-zoom{
+        margin-top:70px !important;
+      }
+
+      .leaflet-control-attribution{
+        display:none;
+      }
+
+      .notice{
+        display:block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        ✓ Vote4Bowdy
+        <small>Jeffersontown Field Operations</small>
+      </div>
+
+      <div id="state" class="state">Not tracking</div>
+    </header>
+
+    <main>
+      <aside>
+        <div class="eyebrow">Your session</div>
+        <h2 style="margin:3px 0">Field Distributor</h2>
+
+        <div class="name">
+          <input
+            id="name"
+            name="displayName"
+            autocomplete="name"
+            maxlength="40"
+            placeholder="Your display name"
+          >
+          <button id="saveName">Save</button>
+        </div>
+
+        <div class="muted">Jeffersontown City Limits campaign</div>
+
+        <div class="card">
+          <b>Travel mode</b>
+
+          <div class="modes">
+            <button id="walk" class="active">🚶 Walking</button>
+            <button id="drive">🚗 Driving</button>
+          </div>
+        </div>
+
+        <div class="eyebrow">Live GPS tracking</div>
+
+        <div class="controls">
+          <button id="start" class="start">Start</button>
+          <button id="pause" class="pause">Pause</button>
+          <button id="stop" class="stop">Stop</button>
+        </div>
+
+        <div class="notice" id="gps">
+          <b>Ready to track</b>
+          Enter your name, press Start, and allow location access.
+        </div>
+
+        <div class="delivery">
+          <div class="eyebrow">Delivery status</div>
+
+          <p id="selection" class="muted">
+            1. Tap the map to select a location.
+            2. Choose a delivery status.
+            3. Save it.
+          </p>
+
+          <div class="statusgrid">
+            <button data-s="Delivered">✓ Delivered</button>
+            <button data-s="Partial">◐ Partial</button>
+            <button data-s="Not delivered">✕ Not delivered</button>
+            <button data-s="Skipped">↷ Skipped</button>
+          </div>
+
+          <textarea
+            id="note"
+            class="note"
+            placeholder="Optional delivery note"
+          ></textarea>
+
+          <button id="saveDelivery" class="save">
+            Save delivery status
+          </button>
+        </div>
+      </aside>
+
+      <section class="mapwrap">
+        <div id="map"></div>
+
+        <div class="maplabel">
+          <b>Jeffersontown, Kentucky</b>
+          <span>Tap map, then mark delivery status below</span>
+        </div>
+
+        <div class="metricrow">
+          <div class="metric">
+            <b id="miles">0.00 mi</b>
+            <span>Distance</span>
+          </div>
+
+          <div class="metric">
+            <b id="time">0:00</b>
+            <span>Tracking time</span>
+          </div>
+
+          <div class="metric">
+            <b id="count">0</b>
+            <span>GPS updates</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right">
+        <h3 style="margin:0">Team activity</h3>
+        <p class="muted">Live shared campaign data.</p>
+
+        <div class="eyebrow">Team members</div>
+        <div id="workers">
+          <p class="muted">Loading team…</p>
+        </div>
+
+        <div class="eyebrow" style="margin-top:14px">
+          Recent delivery log
+        </div>
+
+        <div id="log">
+          <p class="muted">Loading delivery records…</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="vote4bowdy-config.js"></script>
+
+  <script>
+    const $ = x => document.getElementById(x);
+    const CAMPAIGN = 'jeffersontown';
+
+    let sb;
+    let map;
+    let myMarker;
+    let chosenMarker;
+    let chosen = null;
+    let status = 'Delivered';
+    let workerId = localStorage.v4bWorkerId || null;
+    let mode = localStorage.v4bMode || 'walking';
+    let watch = null;
+    let route = [];
+    let routeLine;
+    let meters = 0;
+    let started = null;
+    let timer = null;
+    let teamMarkers = {};
+    let teamLines = {};
+    let deliveryLayer;
+    let wakeLock = null;
+    let lastLocationAt = 0;
+    let trackingActive = false;
+    let activeRouteId = localStorage.getItem('v4bActiveRouteId') || null;
+
+    function esc(s){
+      return String(s || '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
+      }[c]));
+    }
+
+    function col(id){
+      let n = 0;
+
+      for(const x of (id || 'x')){
+        n += x.charCodeAt(0);
+      }
+
+      return [
+        '#ff6575',
+        '#36d8f3',
+        '#ffc44d',
+        '#bd87ff',
+        '#77e6a9'
+      ][n % 5];
+    }
+
+    function dot(c){
+      return L.divIcon({
+        className:'',
+        html:
+          '<div style="width:18px;height:18px;border-radius:50%;background:' +
+          c +
+          ';border:3px solid white;box-shadow:0 0 0 4px ' +
+          c +
+          '55"></div>',
+        iconSize:[18,18],
+        iconAnchor:[9,9]
+      });
+    }
+
+    function setTrackingState(type){
+      const state = $('state');
+
+      const labels = {
+        idle:'Not tracking',
+        live:'GPS recording',
+        waiting:'Waiting for GPS',
+        paused:'Tracking paused — open Vote4Bowdy to resume'
+      };
+
+      state.className = 'state';
+
+      if(type === 'live'){
+        state.classList.add('live');
+      }
+
+      if(type === 'waiting'){
+        state.classList.add('waiting');
+      }
+
+      if(type === 'paused'){
+        state.classList.add('paused');
+      }
+
+      state.textContent = labels[type] || labels.idle;
+    }
+
+    function wakeLockText(){
+      if(!('wakeLock' in navigator)){
+        return 'Screen wake lock is not supported in this browser.';
+      }
+
+      return wakeLock
+        ? 'Screen awake while tracking.'
+        : 'Screen may sleep; keep Vote4Bowdy open while tracking.';
+    }
+
+    async function requestWakeLock(){
+      if(!('wakeLock' in navigator)){
+        return false;
+      }
+
+      try{
+        wakeLock = await navigator.wakeLock.request('screen');
+
+        wakeLock.addEventListener('release', () => {
+          wakeLock = null;
+        });
+
+        return true;
+      }catch(error){
+        console.warn('Wake lock unavailable:', error);
+        wakeLock = null;
+        return false;
+      }
+    }
+
+    async function releaseWakeLock(){
+      if(wakeLock){
+        try{
+          await wakeLock.release();
+        }catch(error){
+          console.warn('Could not release wake lock:', error);
+        }
+      }
+
+      wakeLock = null;
+    }
+
+    function init(){
+      if(
+        !window.L ||
+        !window.supabase ||
+        !window.V4B_SUPABASE_URL ||
+        !window.V4B_SUPABASE_KEY
+      ){
+        $('gps').innerHTML =
+          '<b>Setup issue.</b>Map or Supabase configuration did not load.';
+        return;
+      }
+
+      try{
+        sb = supabase.createClient(
+          String(window.V4B_SUPABASE_URL).trim(),
+          String(window.V4B_SUPABASE_KEY).trim()
+        );
+      }catch(error){
+        $('gps').innerHTML =
+          '<b>Setup issue.</b>' + esc(error.message);
+        return;
+      }
+
+      map = L.map('map').setView([38.19370,-85.56637], 12);
+
+      L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          maxZoom:19,
+          attribution:'© OpenStreetMap contributors'
+        }
+      ).addTo(map);
+
+      routeLine = L.polyline([],{
+        color:'#ff6575',
+        weight:5
+      }).addTo(map);
+
+      deliveryLayer = L.layerGroup().addTo(map);
+
+      map.on('click', event => {
+        chosen = event.latlng;
+
+        if(chosenMarker){
+          chosenMarker.remove();
+        }
+
+        chosenMarker = L.marker(chosen,{
+          icon:dot('#ffc44d')
+        }).addTo(map);
+
+        $('selection').textContent =
+          'Selected location. Now choose Delivered, Partial, Not delivered, or Skipped, then tap Save.';
+      });
+
+      setTimeout(() => map.invalidateSize(), 500);
+
+      loadAll();
+      subscribe();
+      setTrackingState('idle');
+    }
+
+    function dist(a,b){
+      let R = 6371000;
+      let q = Math.PI / 180;
+      let la = a.lat * q;
+      let lb = b.lat * q;
+      let dl = (b.lat - a.lat) * q;
+      let doa = (b.lng - a.lng) * q;
+
+      let h =
+        Math.sin(dl / 2) ** 2 +
+        Math.cos(la) *
+        Math.cos(lb) *
+        Math.sin(doa / 2) ** 2;
+
+      return 2 * R * Math.asin(Math.sqrt(h));
+    }
+
+    async function worker(){
+      let name =
+        $('name').value.trim() ||
+        localStorage.v4bName ||
+        'Field Distributor';
+
+      $('name').value = name;
+      localStorage.v4bName = name;
+
+      if(workerId){
+        return workerId;
+      }
+
+      let { data, error } = await sb
+        .from('v4b_workers')
+        .insert({
+          campaign:CAMPAIGN,
+          display_name:name,
+          mode,
+          tracking_state:'stopped'
+        })
+        .select()
+        .single();
+
+      if(error){
+        throw error;
+      }
+
+      workerId = data.id;
+      localStorage.v4bWorkerId = workerId;
+
+      return workerId;
+    }
+
+    async function update(fields){
+      let id = await worker();
+
+      let { error } = await sb
+        .from('v4b_workers')
+        .update({
+          ...fields,
+          display_name:$('name').value.trim() || 'Field Distributor',
+          mode,
+          last_seen:new Date().toISOString()
+        })
+        .eq('id', id);
+
+      if(error){
+        throw error;
+      }
+    }
+
+    async function position(p){
+      let ll = L.latLng(
+        p.coords.latitude,
+        p.coords.longitude
+      );
+
+      lastLocationAt = Date.now();
+
+      if(route.length){
+        meters += dist(route[route.length - 1], ll);
+      }
+
+      route.push(ll);
+      routeLine.setLatLngs(route);
+
+      if(!myMarker){
+        myMarker = L.marker(ll,{
+          icon:dot('#ff6575')
+        }).addTo(map);
+      }else{
+        myMarker.setLatLng(ll);
+      }
+
+      map.panTo(ll);
+
+      $('miles').textContent =
+        (meters / 1609.344).toFixed(2) + ' mi';
+
+      $('count').textContent = route.length;
+
+      setTrackingState('live');
+
+      try{
+        let id = await worker();
+
+        await update({
+          lat:ll.lat,
+          lng:ll.lng,
+          accuracy:p.coords.accuracy,
+          tracking_state:'tracking'
+        });
+
+        let { error } = await sb
+          .from('v4b_route_points')
+          .insert({
+            campaign:CAMPAIGN,
+            worker_id:id,
+            route_id:activeRouteId,
+            lat:ll.lat,
+            lng:ll.lng,
+            accuracy:p.coords.accuracy,
+            inside_boundary:null
+          });
+
+        if(error){
+          throw error;
+        }
+
+        $('gps').innerHTML =
+          '<b style="color:#bdf8d8">GPS recording.</b>' +
+          'Your location and route are syncing to the team map. ' +
+          wakeLockText();
+
+      }catch(error){
+        $('gps').innerHTML =
+          '<b>Database error.</b>' + esc(error.message);
+      }
+    }
+
+    function geoErr(error){
+      setTrackingState('waiting');
+
+      $('gps').innerHTML =
+        '<b>Location unavailable.</b>' +
+        ({
+          1:' Permission denied.',
+          2:' Position unavailable.',
+          3:' Location timed out.'
+        }[error.code] || ' Unable to access GPS.');
+    }
+
+    function clock(){
+      if(!started){
+        return;
+      }
+
+      let seconds = Math.floor(
+        (Date.now() - started) / 1000
+      );
+
+      $('time').textContent =
+        Math.floor(seconds / 60) +
+        ':' +
+        String(seconds % 60).padStart(2,'0');
+    }
+
+    async function start(){
+      try{
+        await worker();
+
+        if(!activeRouteId){
+          activeRouteId = crypto.randomUUID();
+          localStorage.setItem(
+            'v4bActiveRouteId',
+            activeRouteId
+          );
+        }
+
+        if(!navigator.geolocation){
+          throw Error('GPS is not supported by this browser.');
+        }
+
+        trackingActive = true;
+        lastLocationAt = 0;
+
+        await requestWakeLock();
+
+        if(watch === null){
+          setTrackingState('waiting');
+
+          watch = navigator.geolocation.watchPosition(
+            position,
+            geoErr,
+            {
+              enableHighAccuracy:true,
+              maximumAge:5000,
+              timeout:15000
+            }
+          );
+
+          if(!started){
+            started = Date.now();
+          }
+
+          if(!timer){
+            timer = setInterval(clock, 1000);
+          }
+
+          $('gps').innerHTML =
+            '<b style="color:#fff0b5">Waiting for GPS.</b>' +
+            'Finding your location. ' +
+            wakeLockText();
+        }
+      }catch(error){
+        trackingActive = false;
+
+        $('gps').innerHTML =
+          '<b>Cannot start.</b>' + esc(error.message);
+      }
+    }
+
+    async function pause(){
+      trackingActive = false;
+
+      if(watch !== null){
+        navigator.geolocation.clearWatch(watch);
+        watch = null;
+      }
+
+      await releaseWakeLock();
+
+      if(workerId){
+        await update({
+          tracking_state:'paused'
+        });
+      }
+
+      setTrackingState('paused');
+
+      $('gps').innerHTML =
+        '<b style="color:#ffd8dd">Tracking paused.</b>' +
+        'Press Start to resume this route.';
+    }
+
+    async function stop(){
+      trackingActive = false;
+
+      if(watch !== null){
+        navigator.geolocation.clearWatch(watch);
+      }
+
+      watch = null;
+
+      clearInterval(timer);
+      timer = null;
+      started = null;
+
+      await releaseWakeLock();
+
+      if(workerId){
+        await update({
+          tracking_state:'stopped'
+        });
+      }
+
+      localStorage.removeItem('v4bActiveRouteId');
+      activeRouteId = null;
+      lastLocationAt = 0;
+
+      setTrackingState('idle');
+
+      $('gps').innerHTML =
+        '<b>Route stopped.</b>' +
+        'Your next Start creates a new route.';
+    }
+
+    async function delivery(){
+      if(!chosen){
+        $('selection').textContent =
+          'Tap a map location first, then choose the delivery status.';
+        return;
+      }
+
+      try{
+        let id = await worker();
+        let name =
+          $('name').value.trim() ||
+          'Field Distributor';
+
+        let { error } = await sb
+          .from('v4b_delivery_entries')
+          .insert({
+            campaign:CAMPAIGN,
+            worker_id:id,
+            worker_name:name,
+            lat:chosen.lat,
+            lng:chosen.lng,
+            delivery_status:status,
+            note:$('note').value.trim()
+          });
+
+        if(error){
+          throw error;
+        }
+
+        $('note').value = '';
+
+        $('selection').textContent =
+          'Saved ' +
+          status +
+          '. Tap another map location for the next delivery status.';
+
+        loadDeliveries();
+      }catch(error){
+        $('selection').textContent =
+          'Could not save: ' + error.message;
+      }
+    }
+
+    async function loadWorkers(){
+      let { data, error } = await sb
+        .from('v4b_workers')
+        .select('*')
+        .eq('campaign', CAMPAIGN)
+        .order('last_seen',{ascending:false});
+
+      if(error){
+        return;
+      }
+
+      $('workers').innerHTML = (data || []).map(worker => {
+        return (
+          '<div class="worker">' +
+            '<div class="avatar" style="background:' +
+              col(worker.id) +
+              '33;color:' +
+              col(worker.id) +
+            '">' +
+              esc(
+                (worker.display_name || '?')
+                  .slice(0,2)
+                  .toUpperCase()
+              ) +
+            '</div>' +
+
+            '<div>' +
+              '<b>' + esc(worker.display_name) + '</b>' +
+              '<small>' +
+                esc(worker.mode) +
+                ' · ' +
+                esc(worker.tracking_state) +
+              '</small>' +
+            '</div>' +
+
+            '<span class="tag">' +
+              (
+                worker.tracking_state === 'tracking'
+                  ? 'LIVE'
+                  : esc(worker.tracking_state).toUpperCase()
+              ) +
+            '</span>' +
+          '</div>'
+        );
+      }).join('') || '<p class="muted">No team members yet.</p>';
+
+      (data || []).forEach(worker => {
+        if(worker.id === workerId || worker.lat == null){
+          return;
+        }
+
+        let point = L.latLng(worker.lat, worker.lng);
+
+        if(!teamMarkers[worker.id]){
+          teamMarkers[worker.id] = L.marker(point,{
+            icon:dot(col(worker.id))
+          })
+            .addTo(map)
+            .bindPopup(
+              '<b>' +
+              esc(worker.display_name) +
+              '</b>'
+            );
+        }else{
+          teamMarkers[worker.id].setLatLng(point);
+        }
+      });
+    }
+
+    async function loadRoutes(){
+      let { data, error } = await sb
+        .from('v4b_route_points')
+        .select('*')
+        .eq('campaign', CAMPAIGN)
+        .is('deleted_at', null)
+        .order('recorded_at',{ascending:true})
+        .limit(5000);
+
+      if(error){
+        console.warn('Could not load routes:', error);
+        return;
+      }
+
+      let groups = {};
+
+      (data || []).forEach(point => {
+        if(point.worker_id !== workerId){
+          (groups[point.worker_id] ??= [])
+            .push([point.lat, point.lng]);
+        }
+      });
+
+      Object.keys(teamLines).forEach(workerIdKey => {
+        if(!groups[workerIdKey]){
+          map.removeLayer(teamLines[workerIdKey]);
+          delete teamLines[workerIdKey];
+        }
+      });
+
+      Object.entries(groups).forEach(([id, points]) => {
+        if(!teamLines[id]){
+          teamLines[id] = L.polyline(points,{
+            color:col(id),
+            weight:4,
+            opacity:.72
+          }).addTo(map);
+        }else{
+          teamLines[id].setLatLngs(points);
+        }
+      });
+    }
+
+    async function loadDeliveries(){
+      let { data, error } = await sb
+        .from('v4b_delivery_entries')
+        .select('*')
+        .eq('campaign', CAMPAIGN)
+        .order('created_at',{ascending:false})
+        .limit(50);
+
+      if(error){
+        return;
+      }
+
+      $('log').innerHTML = (data || []).map(entry => {
+        return (
+          '<div class="entry">' +
+            '<b>' + esc(entry.worker_name) + '</b>' +
+            '<span class="badge ' +
+              entry.delivery_status.replace(' ','-') +
+            '">' +
+              esc(entry.delivery_status) +
+            '</span>' +
+            '<small>' +
+              esc(entry.note || 'No note') +
+              ' · ' +
+              new Date(entry.created_at).toLocaleTimeString([],{
+                hour:'numeric',
+                minute:'2-digit'
+              }) +
+            '</small>' +
+          '</div>'
+        );
+      }).join('') || '<p class="muted">No delivery records yet.</p>';
+
+      deliveryLayer.clearLayers();
+
+      (data || []).forEach(entry => {
+        let color =
+          entry.delivery_status === 'Delivered'
+            ? '#36df91'
+            : entry.delivery_status === 'Partial'
+              ? '#ffc44d'
+              : entry.delivery_status === 'Not delivered'
+                ? '#ff6575'
+                : '#bd87ff';
+
+        L.circleMarker(
+          [entry.lat, entry.lng],
+          {
+            radius:7,
+            color:'#fff',
+            weight:2,
+            fillColor:color,
+            fillOpacity:1
+          }
+        )
+          .addTo(deliveryLayer)
+          .bindPopup(
+            '<b>' +
+            esc(entry.delivery_status) +
+            '</b><br>' +
+            esc(entry.worker_name) +
+            '<br>' +
+            esc(entry.note || '')
+          );
+      });
+    }
+
+    function loadAll(){
+      loadWorkers();
+      loadRoutes();
+      loadDeliveries();
+    }
+
+    function subscribe(){
+      sb.channel('vote4bowdy-live')
+        .on(
+          'postgres_changes',
+          {
+            event:'*',
+            schema:'public',
+            table:'v4b_workers'
+          },
+          loadWorkers
+        )
+        .on(
+          'postgres_changes',
+          {
+            event:'*',
+            schema:'public',
+            table:'v4b_route_points'
+          },
+          loadRoutes
+        )
+        .on(
+          'postgres_changes',
+          {
+            event:'INSERT',
+            schema:'public',
+            table:'v4b_delivery_entries'
+          },
+          loadDeliveries
+        )
+        .subscribe();
+    }
+
+    setInterval(() => {
+      if(!trackingActive){
+        return;
+      }
+
+      let secondsSinceLastPoint = lastLocationAt
+        ? (Date.now() - lastLocationAt) / 1000
+        :
