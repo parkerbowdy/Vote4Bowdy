@@ -180,9 +180,9 @@ async function loadCampaignBoundary(){
   );
 
   try{
-    const response=await fetch('jeffersontown-boundary.geojson',{
-      cache:'no-store'
-    });
+   const response=await fetch('./jeffersontown-boundary.geojson',{
+  cache:'no-store'
+});
 
     if(!response.ok){
       throw Error('Boundary file returned '+response.status+'.');
@@ -258,7 +258,7 @@ function init(){
 
   routeLine=L.polyline([],{color:'#ff6575',weight:5}).addTo(map);
   deliveryLayer=L.layerGroup().addTo(map);
-
+loadCampaignBoundary();
   map.on('click',e=>{
     chosen=e.latlng;
     if(chosenMarker)chosenMarker.remove();
