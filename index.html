@@ -357,10 +357,100 @@ async function getOrCreateActiveRoute(){
   localStorage.v4bActiveRouteId=activeRouteId;
   return activeRouteId;
 }
+function pointInRing(lng,lat,ring){
+  let inside=false;
 
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0];
+    const yi=ring[i][1];
+    const xj=ring[j][0];
+    const yj=ring[j][1];
+
+    const crosses=
+      ((yi>lat)!==(yj>lat)) &&
+      (lng<((xj-xi)*(lat-yi))/(yj-yi)+xi);
+
+    if(crosses)inside=!inside;
+  }
+
+  return inside;
+}
+
+function pointInPolygonCoordinates(lng,lat,coordinates){
+  if(!coordinates||!coordinates.length)return false;
+
+  if(!pointInRing(lng,lat,coordinates[0]))return false;
+
+  for(let i=1;i<coordinates.length;i++){
+    if(pointInRing(lng,lat,coordinates[i]))return false;
+  }
+
+  return true;
+}
+
+function isInsideCampaignBoundary(lat,lng){
+  if(!boundaryGeoJson||!boundaryGeoJson.features){
+    return null;
+  }
+
+  return boundaryGeoJson.features.some(feature=>{
+    const geometry=feature.geometry;
+
+    if(!geometry)return false;
+
+    if(geometry.type==='Polygon'){
+      return pointInPolygonCoordinates(
+        lng,
+        lat,
+        geometry.coordinates
+      );
+    }
+
+    if(geometry.type==='MultiPolygon'){
+      return geometry.coordinates.some(polygon=>{
+        return pointInPolygonCoordinates(
+          lng,
+          lat,
+          polygon
+        );
+      });
+    }
+
+    return false;
+  });
+}
+
+function setCurrentBoundaryState(inside){
+  if(inside===null){
+    setBoundaryStatus(
+      'loading',
+      'Checking campaign boundary…',
+      'Waiting for the city-limits outline to finish loading.'
+    );
+    return;
+  }
+
+  if(inside){
+    setBoundaryStatus(
+      'ready',
+      'Inside campaign area',
+      'You are inside the Jeffersontown City Limits campaign boundary.'
+    );
+    return;
+  }
+
+  setBoundaryStatus(
+    'error',
+    'Outside campaign area',
+    'You are outside the Jeffersontown City Limits boundary. Return inside before distributing.'
+  );
+}
 async function position(p){
   let ll=L.latLng(p.coords.latitude,p.coords.longitude);
+  
+const insideBoundary=isInsideCampaignBoundary(ll.lat,ll.lng);
 
+setCurrentBoundaryState(insideBoundary);
   if(route.length)meters+=dist(route[route.length-1],ll);
 
   route.push(ll);
@@ -396,7 +486,7 @@ async function position(p){
         lat:ll.lat,
         lng:ll.lng,
         accuracy:p.coords.accuracy,
-        inside_boundary:null
+        inside_boundary:insideBoundary
       });
 
     if(error)throw error;
