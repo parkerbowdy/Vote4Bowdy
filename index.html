@@ -140,8 +140,7 @@ let mode=localStorage.v4bMode||'walking';
 let activeRouteId=localStorage.v4bActiveRouteId||null;
 let watch=null,route=[],routeLine,meters=0,started=null,timer=null;
 let teamMarkers={},teamLines={},deliveryLayer,boundaryLayer=null,boundaryGeoJson=null;
-const KENTUCKY_CITY_BOUNDARY_LAYER =
-  'https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/KY_Corporate_Boundaries/FeatureServer/0/query';
+
 function esc(s){
   return String(s||'').replace(/[&<>"']/g,c=>({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -181,27 +180,22 @@ async function loadCampaignBoundary(){
   );
 
   try{
-    const url=new URL(KENTUCKY_CITY_BOUNDARY_LAYER);
-
-    url.searchParams.set('f','geojson');
-    url.searchParams.set(
-      'where',
-      "UPPER(NAME) = 'JEFFERSONTOWN'"
-    );
-    url.searchParams.set('outFields','*');
-    url.searchParams.set('returnGeometry','true');
-    url.searchParams.set('outSR','4326');
-
-    const response=await fetch(url);
+    const response=await fetch('jeffersontown-boundary.geojson',{
+      cache:'no-store'
+    });
 
     if(!response.ok){
-      throw Error('Boundary service returned '+response.status+'.');
+      throw Error('Boundary file returned '+response.status+'.');
     }
 
     const geojson=await response.json();
 
-    if(!geojson.features||!geojson.features.length){
-      throw Error('No Jeffersontown boundary was returned.');
+    if(
+      !geojson ||
+      !Array.isArray(geojson.features) ||
+      !geojson.features.length
+    ){
+      throw Error('Boundary file has no polygon features.');
     }
 
     boundaryGeoJson=geojson;
@@ -234,8 +228,8 @@ async function loadCampaignBoundary(){
 
     setBoundaryStatus(
       'error',
-      'Boundary unavailable',
-      'GPS tracking still works. The campaign outline could not be loaded.'
+      'Boundary file unavailable',
+      'GPS tracking still works. Ask a manager to upload the campaign boundary file.'
     );
   }
 }
@@ -264,7 +258,7 @@ function init(){
 
   routeLine=L.polyline([],{color:'#ff6575',weight:5}).addTo(map);
   deliveryLayer=L.layerGroup().addTo(map);
-loadCampaignBoundary();
+
   map.on('click',e=>{
     chosen=e.latlng;
     if(chosenMarker)chosenMarker.remove();
