@@ -8,6 +8,48 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:60px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line);z-index:5}.brand{font-size:20px;font-weight:850}.brand small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9cacbf}.state{border-radius:18px;background:#2d394d;padding:7px 10px;font-size:12px;font-weight:800}.state.live{color:#bdf8d8;background:#123824}.state.live:before{content:'●';margin-right:6px;color:var(--green)}main{display:grid;grid-template-columns:305px 1fr 285px;min-height:0}aside{background:var(--panel);padding:16px;border-right:1px solid var(--line);overflow:auto}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{font-size:12px;color:var(--muted);line-height:1.45}.card{background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px;margin:11px 0}button,input,textarea{font:inherit}button{border:0;border-radius:8px;padding:10px 8px;font-weight:800;cursor:pointer}.name{display:flex;gap:6px;margin:8px 0}.name input{min-width:0;flex:1;padding:9px;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff}.name button{background:#354a6a;color:#fff}.modes,.controls{display:grid;gap:7px}.modes{grid-template-columns:1fr 1fr;margin-top:8px}.modes button{color:#e7eef8;background:#22314a;border:1px solid #344b6c}.modes button.active{background:#173f71;border-color:#5494e2}.controls{grid-template-columns:1.2fr 1fr 1fr;margin-top:8px}.start{background:var(--green);color:#062514}.pause{background:#2b3d5a;color:#fff}.stop{background:#4a2734;color:#ffdee2}.notice{font-size:12px;line-height:1.4;background:#152137;border:1px solid #2b3f60;border-radius:9px;padding:10px;margin-top:10px}.notice b{display:block}.delivery{margin-top:14px;border-top:1px solid #2b3f60;padding-top:14px}.statusgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.statusgrid button{font-size:12px;min-height:42px}.statusgrid button:nth-child(1){background:var(--green);color:#062514}.statusgrid button:nth-child(2){background:var(--amber);color:#342600}.statusgrid button:nth-child(3){background:var(--red);color:#fff}.statusgrid button:nth-child(4){background:var(--purple);color:#251235}.statusgrid .selected{outline:2px solid #fff;outline-offset:2px}.note{margin-top:8px;width:100%;min-height:58px;resize:vertical;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff;padding:9px}.save{width:100%;background:linear-gradient(135deg,#e7334a,#ed5f42);color:white;margin-top:7px;min-height:43px}.metricrow{position:absolute;z-index:1000;bottom:15px;left:15px;display:flex;gap:7px}.metric{padding:7px 9px;border:1px solid #38506f;border-radius:9px;background:#0d1727e8}.metric b{display:block}.metric span{font-size:10px;color:#bac7d8}.maplabel{position:absolute;z-index:1000;top:13px;left:13px;background:#0d1727e8;border:1px solid #38506f;padding:8px 10px;border-radius:9px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.worker{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #283a57}.avatar{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;border-radius:9px;padding:4px 6px;font-size:9px;font-weight:900;background:#143b28;color:#bdf8d8}.entry{padding:9px 0;border-top:1px solid #283a57}.entry b{font-size:12px;display:block}.entry small{font-size:10px;color:var(--muted)}.badge{display:inline-block;font-size:9px;font-weight:900;margin-top:4px;padding:3px 6px;border-radius:8px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}@media(max-width:850px){main{grid-template-columns:300px 1fr}.right{display:none}}@media(max-width:620px){html,body{height:100%;overflow:hidden}.app{height:100dvh;grid-template-rows:54px 1fr}header{padding:0 12px}.brand{font-size:17px}.brand small{font-size:9px}main{display:block;position:relative}.mapwrap{position:absolute;inset:0;height:100%}#map{height:100%}aside:not(.right){position:absolute;z-index:1001;left:0;right:0;bottom:0;height:min(62dvh,560px);max-height:calc(100dvh - 54px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;padding:14px 14px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 34px rgba(0,0,0,.35)}.right{display:none}.controls{position:sticky;bottom:0;z-index:4;background:var(--panel);padding:9px 0}.controls button,.modes button,.statusgrid button,.name input,.name button,.save{min-height:44px}.delivery{padding-bottom:8px}.metricrow{bottom:calc(min(62dvh,560px) + 9px);left:8px;right:8px;gap:5px}.metric{flex:1;text-align:center;padding:6px 3px}.maplabel{top:9px;left:9px;right:9px}.leaflet-control-zoom{margin-top:70px!important}.leaflet-control-attribution{display:none}.notice{display:block}}
+.boundary-status{
+  position:absolute;
+  z-index:1000;
+  top:72px;
+  left:13px;
+  max-width:250px;
+  padding:8px 10px;
+  border:1px solid #2f805a;
+  border-radius:9px;
+  background:#10251ce8;
+  color:#c8f7dc;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.35;
+}
+
+.boundary-status b{
+  display:block;
+  color:#36df91;
+  font-size:12px;
+}
+
+.boundary-status.loading{
+  border-color:#8a6a2b;
+  background:#2a2316e8;
+  color:#ffe09a;
+}
+
+.boundary-status.error{
+  border-color:#803645;
+  background:#2d1720e8;
+  color:#ffc3cb;
+}
+
+@media(max-width:620px){
+  .boundary-status{
+    top:67px;
+    left:9px;
+    right:9px;
+    max-width:none;
+  }
+}
 </style>
 </head>
 <body>
@@ -62,6 +104,10 @@
     <b>Jeffersontown, Kentucky</b>
     <span>Tap map, then mark delivery status below</span>
   </div>
+  <div id="boundaryStatus" class="boundary-status loading">
+  <b>Loading campaign boundary…</b>
+  The green outlined area is the Jeffersontown City Limits campaign area.
+</div>
   <div class="metricrow">
     <div class="metric"><b id="miles">0.00 mi</b><span>Distance</span></div>
     <div class="metric"><b id="time">0:00</b><span>Tracking time</span></div>
@@ -93,8 +139,9 @@ let workerId=localStorage.v4bWorkerId||null;
 let mode=localStorage.v4bMode||'walking';
 let activeRouteId=localStorage.v4bActiveRouteId||null;
 let watch=null,route=[],routeLine,meters=0,started=null,timer=null;
-let teamMarkers={},teamLines={},deliveryLayer;
-
+let teamMarkers={},teamLines={},deliveryLayer,boundaryLayer=null,boundaryGeoJson=null;
+const KENTUCKY_CITY_BOUNDARY_LAYER =
+  'https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/KY_Corporate_Boundaries/FeatureServer/0/query';
 function esc(s){
   return String(s||'').replace(/[&<>"']/g,c=>({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -115,7 +162,83 @@ function dot(c){
     iconAnchor:[9,9]
   });
 }
+function setBoundaryStatus(type,title,message){
+  const box=$('boundaryStatus');
 
+  if(!box)return;
+
+  box.className='boundary-status'+
+    (type==='loading'?' loading':type==='error'?' error':'') ;
+
+  box.innerHTML='<b>'+esc(title)+'</b>'+esc(message);
+}
+
+async function loadCampaignBoundary(){
+  setBoundaryStatus(
+    'loading',
+    'Loading campaign boundary…',
+    'The green outlined area is the Jeffersontown City Limits campaign area.'
+  );
+
+  try{
+    const url=new URL(KENTUCKY_CITY_BOUNDARY_LAYER);
+
+    url.searchParams.set('f','geojson');
+    url.searchParams.set(
+      'where',
+      "UPPER(NAME) = 'JEFFERSONTOWN'"
+    );
+    url.searchParams.set('outFields','*');
+    url.searchParams.set('returnGeometry','true');
+    url.searchParams.set('outSR','4326');
+
+    const response=await fetch(url);
+
+    if(!response.ok){
+      throw Error('Boundary service returned '+response.status+'.');
+    }
+
+    const geojson=await response.json();
+
+    if(!geojson.features||!geojson.features.length){
+      throw Error('No Jeffersontown boundary was returned.');
+    }
+
+    boundaryGeoJson=geojson;
+
+    if(boundaryLayer){
+      boundaryLayer.remove();
+    }
+
+    boundaryLayer=L.geoJSON(boundaryGeoJson,{
+      interactive:false,
+      style:{
+        color:'#36df91',
+        weight:3,
+        opacity:.95,
+        fillColor:'#36df91',
+        fillOpacity:.10,
+        dashArray:'8 6'
+      }
+    }).addTo(map);
+
+    boundaryLayer.bringToBack();
+
+    setBoundaryStatus(
+      'ready',
+      'Campaign boundary shown',
+      'Stay inside the green outlined Jeffersontown City Limits area.'
+    );
+  }catch(error){
+    console.error('Could not load campaign boundary:',error);
+
+    setBoundaryStatus(
+      'error',
+      'Boundary unavailable',
+      'GPS tracking still works. The campaign outline could not be loaded.'
+    );
+  }
+}
 function init(){
   if(!window.L||!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){
     $('gps').innerHTML='<b>Setup issue.</b>Map or Supabase configuration did not load.';
@@ -141,7 +264,7 @@ function init(){
 
   routeLine=L.polyline([],{color:'#ff6575',weight:5}).addTo(map);
   deliveryLayer=L.layerGroup().addTo(map);
-
+loadCampaignBoundary();
   map.on('click',e=>{
     chosen=e.latlng;
     if(chosenMarker)chosenMarker.remove();
