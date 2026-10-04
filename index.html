@@ -6,14 +6,309 @@
 <title>Vote4Bowdy | Field Map</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <style>
-:root{--bg:#080c14;--panel:#101827;--line:#293c5b;--text:#f5f7fb;--muted:#a4b1c6;--green:#36df91;--red:#ff6575;--amber:#ffc44d;--purple:#bd87ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}.app{height:100vh;display:grid;grid-template-rows:60px 1fr}header{display:flex;justify-content:space-between;align-items:center;padding:0 18px;background:#0b101b;border-bottom:1px solid var(--line);z-index:5}.brand{font-size:20px;font-weight:850}.brand small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9cacbf}.state{border-radius:18px;background:#2d394d;padding:7px 10px;font-size:12px;font-weight:800}.state.live{color:#bdf8d8;background:#123824}.state.live:before{content:'●';margin-right:6px;color:var(--green)}main{display:grid;grid-template-columns:305px 1fr 285px;min-height:0}aside{background:var(--panel);padding:16px;border-right:1px solid var(--line);overflow:auto}.right{border-right:0;border-left:1px solid var(--line)}#map{height:100%;width:100%;background:#15233a}.mapwrap{position:relative;min-width:0}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#91a4c2;font-weight:800}.muted{font-size:12px;color:var(--muted);line-height:1.45}.card{background:#152137;border:1px solid #2b3f60;border-radius:11px;padding:12px;margin:11px 0}button,input,textarea{font:inherit}button{border:0;border-radius:8px;padding:10px 8px;font-weight:800;cursor:pointer}.name{display:flex;gap:6px;margin:8px 0}.name input{min-width:0;flex:1;padding:9px;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff}.name button{background:#354a6a;color:#fff}.modes,.controls{display:grid;gap:7px}.modes{grid-template-columns:1fr 1fr;margin-top:8px}.modes button{color:#e7eef8;background:#22314a;border:1px solid #344b6c}.modes button.active{background:#173f71;border-color:#5494e2}.controls{grid-template-columns:1.2fr 1fr 1fr;margin-top:8px}.start{background:var(--green);color:#062514}.pause{background:#2b3d5a;color:#fff}.stop{background:#4a2734;color:#ffdee2}.notice{font-size:12px;line-height:1.4;background:#152137;border:1px solid #2b3f60;border-radius:9px;padding:10px;margin-top:10px}.notice b{display:block}.delivery{margin-top:14px;border-top:1px solid #2b3f60;padding-top:14px}.statusgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.statusgrid button{font-size:12px;min-height:42px}.statusgrid button:nth-child(1){background:var(--green);color:#062514}.statusgrid button:nth-child(2){background:var(--amber);color:#342600}.statusgrid button:nth-child(3){background:var(--red);color:#fff}.statusgrid button:nth-child(4){background:var(--purple);color:#251235}.statusgrid .selected{outline:2px solid #fff;outline-offset:2px}.note{margin-top:8px;width:100%;min-height:58px;resize:vertical;background:#0c1524;border:1px solid #344b6c;border-radius:8px;color:#fff;padding:9px}.save{width:100%;background:linear-gradient(135deg,#e7334a,#ed5f42);color:white;margin-top:7px;min-height:43px}.metricrow{position:absolute;z-index:1000;bottom:15px;left:15px;display:flex;gap:7px}.metric{padding:7px 9px;border:1px solid #38506f;border-radius:9px;background:#0d1727e8}.metric b{display:block}.metric span{font-size:10px;color:#bac7d8}.maplabel{position:absolute;z-index:1000;top:13px;left:13px;background:#0d1727e8;border:1px solid #38506f;padding:8px 10px;border-radius:9px}.maplabel b{display:block;font-size:13px}.maplabel span{font-size:11px;color:#b7c4d6}.worker{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #283a57}.avatar{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;font-size:10px;font-weight:900}.worker b{display:block;font-size:13px}.worker small{font-size:10px;color:var(--muted)}.tag{margin-left:auto;border-radius:9px;padding:4px 6px;font-size:9px;font-weight:900;background:#143b28;color:#bdf8d8}.entry{padding:9px 0;border-top:1px solid #283a57}.entry b{font-size:12px;display:block}.entry small{font-size:10px;color:var(--muted)}.badge{display:inline-block;font-size:9px;font-weight:900;margin-top:4px;padding:3px 6px;border-radius:8px}.Delivered{background:#153b29;color:#aef6d1}.Partial{background:#493b18;color:#ffe099}.Not-delivered{background:#4b2530;color:#ffc3cb}.Skipped{background:#3b294f;color:#dcc1ff}@media(max-width:850px){main{grid-template-columns:300px 1fr}.right{display:none}}@media(max-width:620px){html,body{height:100%;overflow:hidden}.app{height:100dvh;grid-template-rows:54px 1fr}header{padding:0 12px}.brand{font-size:17px}.brand small{font-size:9px}main{display:block;position:relative}.mapwrap{position:absolute;inset:0;height:100%}#map{height:100%}aside:not(.right){position:absolute;z-index:1001;left:0;right:0;bottom:0;height:min(62dvh,560px);max-height:calc(100dvh - 54px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;padding:14px 14px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 34px rgba(0,0,0,.35)}.right{display:none}.controls{position:sticky;bottom:0;z-index:4;background:var(--panel);padding:9px 0}.controls button,.modes button,.statusgrid button,.name input,.name button,.save{min-height:44px}.delivery{padding-bottom:8px}.metricrow{bottom:calc(min(62dvh,560px) + 9px);left:8px;right:8px;gap:5px}.metric{flex:1;text-align:center;padding:6px 3px}.maplabel{top:9px;left:9px;right:9px}.leaflet-control-zoom{margin-top:70px!important}.leaflet-control-attribution{display:none}.notice{display:block}}
+:root{
+  --bg:#080c14;
+  --panel:#101827;
+  --line:#293c5b;
+  --text:#f5f7fb;
+  --muted:#a4b1c6;
+  --green:#36df91;
+  --red:#ff6575;
+  --amber:#ffc44d;
+  --purple:#bd87ff;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px system-ui,sans-serif;
+}
+
+.app{
+  height:100vh;
+  display:grid;
+  grid-template-rows:60px 1fr;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 18px;
+  background:#0b101b;
+  border-bottom:1px solid var(--line);
+  z-index:5;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:850;
+}
+
+.brand small{
+  display:block;
+  color:#9cacbf;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.state{
+  border-radius:18px;
+  background:#2d394d;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.state.live{
+  color:#bdf8d8;
+  background:#123824;
+}
+
+.state.live:before{
+  content:'●';
+  margin-right:6px;
+  color:var(--green);
+}
+
+main{
+  display:grid;
+  grid-template-columns:305px 1fr 285px;
+  min-height:0;
+}
+
+aside{
+  overflow:auto;
+  padding:16px;
+  background:var(--panel);
+  border-right:1px solid var(--line);
+}
+
+.right{
+  border-right:0;
+  border-left:1px solid var(--line);
+}
+
+#map{
+  height:100%;
+  width:100%;
+  background:#15233a;
+}
+
+.mapwrap{
+  position:relative;
+  min-width:0;
+}
+
+.eyebrow{
+  color:#91a4c2;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+}
+
+.card{
+  margin:11px 0;
+  padding:12px;
+  border:1px solid #2b3f60;
+  border-radius:11px;
+  background:#152137;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:10px 8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.name{
+  display:flex;
+  gap:6px;
+  margin:8px 0;
+}
+
+.name input{
+  min-width:0;
+  flex:1;
+  padding:9px;
+  border:1px solid #344b6c;
+  border-radius:8px;
+  background:#0c1524;
+  color:#fff;
+}
+
+.name button{
+  background:#354a6a;
+  color:#fff;
+}
+
+.modes,
+.controls{
+  display:grid;
+  gap:7px;
+}
+
+.modes{
+  grid-template-columns:1fr 1fr;
+  margin-top:8px;
+}
+
+.modes button{
+  border:1px solid #344b6c;
+  background:#22314a;
+  color:#e7eef8;
+}
+
+.modes button.active{
+  border-color:#5494e2;
+  background:#173f71;
+}
+
+.controls{
+  grid-template-columns:1.2fr 1fr 1fr;
+  margin-top:8px;
+}
+
+.start{
+  background:var(--green);
+  color:#062514;
+}
+
+.pause{
+  background:#2b3d5a;
+  color:#fff;
+}
+
+.stop{
+  background:#4a2734;
+  color:#ffdee2;
+}
+
+.notice{
+  margin-top:10px;
+  padding:10px;
+  border:1px solid #2b3f60;
+  border-radius:9px;
+  background:#152137;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.notice b{
+  display:block;
+}
+
+.delivery{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #2b3f60;
+}
+
+.statusgrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:8px;
+}
+
+.statusgrid button{
+  min-height:42px;
+  font-size:12px;
+}
+
+.statusgrid button:nth-child(1){
+  background:var(--green);
+  color:#062514;
+}
+
+.statusgrid button:nth-child(2){
+  background:var(--amber);
+  color:#342600;
+}
+
+.statusgrid button:nth-child(3){
+  background:var(--red);
+  color:#fff;
+}
+
+.statusgrid button:nth-child(4){
+  background:var(--purple);
+  color:#251235;
+}
+
+.statusgrid .selected{
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
+
+.note{
+  width:100%;
+  min-height:58px;
+  margin-top:8px;
+  resize:vertical;
+  padding:9px;
+  border:1px solid #344b6c;
+  border-radius:8px;
+  background:#0c1524;
+  color:#fff;
+}
+
+.save{
+  width:100%;
+  min-height:43px;
+  margin-top:7px;
+  background:linear-gradient(135deg,#e7334a,#ed5f42);
+  color:#fff;
+}
+
+.maplabel{
+  position:absolute;
+  z-index:1000;
+  top:13px;
+  left:13px;
+  padding:8px 10px;
+  border:1px solid #38506f;
+  border-radius:9px;
+  background:#0d1727e8;
+}
+
+.maplabel b{
+  display:block;
+  font-size:13px;
+}
+
+.maplabel span{
+  color:#b7c4d6;
+  font-size:11px;
+}
+
 .boundary-status{
   position:absolute;
   z-index:1000;
   top:72px;
   left:13px;
-  max-width:250px;
+  max-width:260px;
   padding:8px 10px;
   border:1px solid #2f805a;
   border-radius:9px;
@@ -26,7 +321,7 @@
 
 .boundary-status b{
   display:block;
-  color:#36df91;
+  color:var(--green);
   font-size:12px;
 }
 
@@ -42,88 +337,366 @@
   color:#ffc3cb;
 }
 
+.metricrow{
+  position:absolute;
+  z-index:1000;
+  bottom:15px;
+  left:15px;
+  display:flex;
+  gap:7px;
+}
+
+.metric{
+  padding:7px 9px;
+  border:1px solid #38506f;
+  border-radius:9px;
+  background:#0d1727e8;
+}
+
+.metric b{
+  display:block;
+}
+
+.metric span{
+  color:#bac7d8;
+  font-size:10px;
+}
+
+.worker{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 0;
+  border-top:1px solid #283a57;
+}
+
+.avatar{
+  display:grid;
+  width:32px;
+  height:32px;
+  place-items:center;
+  border-radius:50%;
+  font-size:10px;
+  font-weight:900;
+}
+
+.worker b{
+  display:block;
+  font-size:13px;
+}
+
+.worker small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.tag{
+  margin-left:auto;
+  padding:4px 6px;
+  border-radius:9px;
+  background:#143b28;
+  color:#bdf8d8;
+  font-size:9px;
+  font-weight:900;
+}
+
+.entry{
+  padding:9px 0;
+  border-top:1px solid #283a57;
+}
+
+.entry b{
+  display:block;
+  font-size:12px;
+}
+
+.entry small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:4px;
+  padding:3px 6px;
+  border-radius:8px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.Delivered{
+  background:#153b29;
+  color:#aef6d1;
+}
+
+.Partial{
+  background:#493b18;
+  color:#ffe099;
+}
+
+.Not-delivered{
+  background:#4b2530;
+  color:#ffc3cb;
+}
+
+.Skipped{
+  background:#3b294f;
+  color:#dcc1ff;
+}
+
+@media(max-width:850px){
+  main{
+    grid-template-columns:300px 1fr;
+  }
+
+  .right{
+    display:none;
+  }
+}
+
 @media(max-width:620px){
+  html,
+  body{
+    height:100%;
+    overflow:hidden;
+  }
+
+  .app{
+    height:100dvh;
+    grid-template-rows:54px 1fr;
+  }
+
+  header{
+    padding:0 12px;
+  }
+
+  .brand{
+    font-size:17px;
+  }
+
+  .brand small{
+    font-size:9px;
+  }
+
+  main{
+    display:block;
+    position:relative;
+  }
+
+  .mapwrap{
+    position:absolute;
+    inset:0;
+    height:100%;
+  }
+
+  #map{
+    height:100%;
+  }
+
+  aside:not(.right){
+    position:absolute;
+    z-index:1001;
+    right:0;
+    bottom:0;
+    left:0;
+    height:min(62dvh,560px);
+    max-height:calc(100dvh - 54px);
+    overflow-y:auto;
+    padding:14px 14px calc(22px + env(safe-area-inset-bottom));
+    border:1px solid var(--line);
+    border-bottom:0;
+    border-radius:18px 18px 0 0;
+    box-shadow:0 -12px 34px rgba(0,0,0,.35);
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+
+  .right{
+    display:none;
+  }
+
+  .controls{
+    position:sticky;
+    z-index:4;
+    bottom:0;
+    padding:9px 0;
+    background:var(--panel);
+  }
+
+  .controls button,
+  .modes button,
+  .statusgrid button,
+  .name input,
+  .name button,
+  .save{
+    min-height:44px;
+  }
+
+  .delivery{
+    padding-bottom:8px;
+  }
+
+  .metricrow{
+    right:8px;
+    bottom:calc(min(62dvh,560px) + 9px);
+    left:8px;
+    gap:5px;
+  }
+
+  .metric{
+    flex:1;
+    padding:6px 3px;
+    text-align:center;
+  }
+
+  .maplabel{
+    top:9px;
+    right:9px;
+    left:9px;
+  }
+
   .boundary-status{
     top:67px;
-    left:9px;
     right:9px;
+    left:9px;
     max-width:none;
+  }
+
+  .leaflet-control-zoom{
+    margin-top:125px!important;
+  }
+
+  .leaflet-control-attribution{
+    display:none;
   }
 }
 </style>
 </head>
+
 <body>
 <div class="app">
-<header>
-  <div class="brand">✓ Vote4Bowdy<small>Jeffersontown Field Operations</small></div>
-  <div id="state" class="state">Not tracking</div>
-</header>
-<main>
-<aside>
-  <div class="eyebrow">Your session</div>
-  <h2 style="margin:3px 0">Field Distributor</h2>
-  <div class="name">
-    <input id="name" name="displayName" autocomplete="name" maxlength="40" placeholder="Your display name">
-    <button id="saveName">Save</button>
-  </div>
-  <div class="muted">Jeffersontown City Limits campaign</div>
-
-  <div class="card">
-    <b>Travel mode</b>
-    <div class="modes">
-      <button id="walk" class="active">🚶 Walking</button>
-      <button id="drive">🚗 Driving</button>
+  <header>
+    <div class="brand">
+      ✓ Vote4Bowdy
+      <small>Jeffersontown Field Operations</small>
     </div>
-  </div>
 
-  <div class="eyebrow">Live GPS tracking</div>
-  <div class="controls">
-    <button id="start" class="start">Start</button>
-    <button id="pause" class="pause">Pause</button>
-    <button id="stop" class="stop">Stop</button>
-  </div>
-  <div class="notice" id="gps"><b>Ready to track</b>Enter your name, press Start, and allow location access.</div>
+    <div id="state" class="state">Not tracking</div>
+  </header>
 
-  <div class="delivery">
-    <div class="eyebrow">Delivery status</div>
-    <p id="selection" class="muted">1. Tap the map to select a location. 2. Choose a delivery status. 3. Save it.</p>
-    <div class="statusgrid">
-      <button data-s="Delivered">✓ Delivered</button>
-      <button data-s="Partial">◐ Partial</button>
-      <button data-s="Not delivered">✕ Not delivered</button>
-      <button data-s="Skipped">↷ Skipped</button>
-    </div>
-    <textarea id="note" class="note" placeholder="Optional delivery note"></textarea>
-    <button id="saveDelivery" class="save">Save delivery status</button>
-  </div>
-</aside>
+  <main>
+    <aside>
+      <div class="eyebrow">Your session</div>
+      <h2 style="margin:3px 0">Field Distributor</h2>
 
-<section class="mapwrap">
-  <div id="map"></div>
-  <div class="maplabel">
-    <b>Jeffersontown, Kentucky</b>
-    <span>Tap map, then mark delivery status below</span>
-  </div>
-  <div id="boundaryStatus" class="boundary-status loading">
-  <b>Loading campaign boundary…</b>
-  The green outlined area is the Jeffersontown City Limits campaign area.
-</div>
-  <div class="metricrow">
-    <div class="metric"><b id="miles">0.00 mi</b><span>Distance</span></div>
-    <div class="metric"><b id="time">0:00</b><span>Tracking time</span></div>
-    <div class="metric"><b id="count">0</b><span>GPS updates</span></div>
-  </div>
-</section>
+      <div class="name">
+        <input
+          id="name"
+          name="displayName"
+          autocomplete="name"
+          maxlength="40"
+          placeholder="Your display name"
+        >
+        <button id="saveName">Save</button>
+      </div>
 
-<aside class="right">
-  <h3 style="margin:0">Team activity</h3>
-  <p class="muted">Live shared campaign data.</p>
-  <div class="eyebrow">Team members</div>
-  <div id="workers"><p class="muted">Loading team…</p></div>
-  <div class="eyebrow" style="margin-top:14px">Recent delivery log</div>
-  <div id="log"><p class="muted">Loading delivery records…</p></div>
-</aside>
-</main>
+      <div class="muted">Jeffersontown City Limits campaign</div>
+
+      <div class="card">
+        <b>Travel mode</b>
+
+        <div class="modes">
+          <button id="walk" class="active">🚶 Walking</button>
+          <button id="drive">🚗 Driving</button>
+        </div>
+      </div>
+
+      <div class="eyebrow">Live GPS tracking</div>
+
+      <div class="controls">
+        <button id="start" class="start">Start</button>
+        <button id="pause" class="pause">Pause</button>
+        <button id="stop" class="stop">Stop</button>
+      </div>
+
+      <div class="notice" id="gps">
+        <b>Ready to track</b>
+        Enter your name, press Start, and allow location access.
+      </div>
+
+      <div class="delivery">
+        <div class="eyebrow">Delivery status</div>
+
+        <p id="selection" class="muted">
+          1. Tap the map to select a location.
+          2. Choose a delivery status.
+          3. Save it.
+        </p>
+
+        <div class="statusgrid">
+          <button data-s="Delivered">✓ Delivered</button>
+          <button data-s="Partial">◐ Partial</button>
+          <button data-s="Not delivered">✕ Not delivered</button>
+          <button data-s="Skipped">↷ Skipped</button>
+        </div>
+
+        <textarea
+          id="note"
+          class="note"
+          placeholder="Optional delivery note"
+        ></textarea>
+
+        <button id="saveDelivery" class="save">
+          Save delivery status
+        </button>
+      </div>
+    </aside>
+
+    <section class="mapwrap">
+      <div id="map"></div>
+
+      <div class="maplabel">
+        <b>Jeffersontown, Kentucky</b>
+        <span>Green outline is the campaign boundary</span>
+      </div>
+
+      <div id="boundaryStatus" class="boundary-status loading">
+        <b>Loading campaign boundary…</b>
+        The green outlined area is the Jeffersontown City Limits campaign area.
+      </div>
+
+      <div class="metricrow">
+        <div class="metric">
+          <b id="miles">0.00 mi</b>
+          <span>Distance</span>
+        </div>
+
+        <div class="metric">
+          <b id="time">0:00</b>
+          <span>Tracking time</span>
+        </div>
+
+        <div class="metric">
+          <b id="count">0</b>
+          <span>GPS updates</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <h3 style="margin:0">Team activity</h3>
+      <p class="muted">Live shared campaign data.</p>
+
+      <div class="eyebrow">Team members</div>
+      <div id="workers"><p class="muted">Loading team…</p></div>
+
+      <div class="eyebrow" style="margin-top:14px">
+        Recent delivery log
+      </div>
+
+      <div id="log"><p class="muted">Loading delivery records…</p></div>
+    </aside>
+  </main>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -131,80 +704,138 @@
 <script src="vote4bowdy-config.js"></script>
 
 <script>
-const $=x=>document.getElementById(x);
-const CAMPAIGN='jeffersontown';
+const $ = id => document.getElementById(id);
+const CAMPAIGN = 'jeffersontown';
 
-let sb,map,myMarker,chosenMarker,chosen=null,status='Delivered';
-let workerId=localStorage.v4bWorkerId||null;
-let mode=localStorage.v4bMode||'walking';
-let activeRouteId=localStorage.v4bActiveRouteId||null;
-let watch=null,route=[],routeLine,meters=0,started=null,timer=null;
-let teamMarkers={},teamLines={},deliveryLayer,boundaryLayer=null,boundaryGeoJson=null;
+let sb;
+let map;
+let myMarker;
+let chosenMarker;
+let chosen = null;
+let status = 'Delivered';
 
-function esc(s){
-  return String(s||'').replace(/[&<>"']/g,c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
+let workerId = localStorage.v4bWorkerId || null;
+let mode = localStorage.v4bMode || 'walking';
+let activeRouteId = localStorage.v4bActiveRouteId || null;
+
+let watch = null;
+let route = [];
+let routeLine;
+let meters = 0;
+let started = null;
+let timer = null;
+
+let teamMarkers = {};
+let teamLines = {};
+let deliveryLayer;
+let boundaryLayer = null;
+
+function esc(value){
+  return String(value || '').replace(/[&<>"']/g, character => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[character]));
 }
 
 function col(id){
-  let n=0;
-  for(const x of(id||'x'))n+=x.charCodeAt(0);
-  return ['#ff6575','#36d8f3','#ffc44d','#bd87ff','#77e6a9'][n%5];
+  let total = 0;
+
+  for(const character of String(id || 'x')){
+    total += character.charCodeAt(0);
+  }
+
+  return [
+    '#ff6575',
+    '#36d8f3',
+    '#ffc44d',
+    '#bd87ff',
+    '#77e6a9'
+  ][total % 5];
 }
 
-function dot(c){
+function dot(color){
   return L.divIcon({
     className:'',
-    html:'<div style="width:18px;height:18px;border-radius:50%;background:'+c+';border:3px solid white;box-shadow:0 0 0 4px '+c+'55"></div>',
+    html:
+      '<div style="' +
+      'width:18px;' +
+      'height:18px;' +
+      'border-radius:50%;' +
+      'background:'+color+';' +
+      'border:3px solid white;' +
+      'box-shadow:0 0 0 4px '+color+'55' +
+      '"></div>',
     iconSize:[18,18],
     iconAnchor:[9,9]
   });
 }
-function setBoundaryStatus(type,title,message){
-  const box=$('boundaryStatus');
 
-  if(!box)return;
+function setBoundaryStatus(type, title, message){
+  const box = $('boundaryStatus');
 
-  box.className='boundary-status'+
-    (type==='loading'?' loading':type==='error'?' error':'') ;
+  if(!box) return;
 
-  box.innerHTML='<b>'+esc(title)+'</b>'+esc(message);
+  box.className =
+    'boundary-status' +
+    (type === 'loading'
+      ? ' loading'
+      : type === 'error'
+        ? ' error'
+        : '');
+
+  box.innerHTML =
+    '<b>' + esc(title) + '</b>' +
+    esc(message);
 }
 
 async function loadCampaignBoundary(){
-  setBoundaryStatus(
-    'loading',
-    'Loading campaign boundary…',
-    'The green outlined area is the Jeffersontown City Limits campaign area.'
-  );
-
   try{
-   const response=await fetch('./jeffersontown-boundary.geojson',{
-  cache:'no-store'
-});
+    setBoundaryStatus(
+      'loading',
+      'Loading campaign boundary…',
+      'The green outlined area is the Jeffersontown City Limits campaign area.'
+    );
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 10000);
+
+    const response = await fetch(
+      './jeffersontown-boundary.geojson',
+      {
+        cache:'no-store',
+        signal:controller.signal
+      }
+    );
+
+    clearTimeout(timeout);
 
     if(!response.ok){
-      throw Error('Boundary file returned '+response.status+'.');
+      throw new Error(
+        'Boundary file returned ' + response.status + '.'
+      );
     }
 
-    const geojson=await response.json();
+    const geojson = await response.json();
 
     if(
       !geojson ||
       !Array.isArray(geojson.features) ||
       !geojson.features.length
     ){
-      throw Error('Boundary file has no polygon features.');
+      throw new Error('Boundary file has no polygon features.');
     }
-
-    boundaryGeoJson=geojson;
 
     if(boundaryLayer){
-      boundaryLayer.remove();
+      map.removeLayer(boundaryLayer);
     }
 
-    boundaryLayer=L.geoJSON(boundaryGeoJson,{
+    boundaryLayer = L.geoJSON(geojson,{
       interactive:false,
       style:{
         color:'#36df91',
@@ -224,286 +855,215 @@ async function loadCampaignBoundary(){
       'Stay inside the green outlined Jeffersontown City Limits area.'
     );
   }catch(error){
-    console.error('Could not load campaign boundary:',error);
+    console.error('Campaign boundary could not load:', error);
 
     setBoundaryStatus(
       'error',
-      'Boundary file unavailable',
-      'GPS tracking still works. Ask a manager to upload the campaign boundary file.'
+      'Boundary unavailable',
+      'GPS and route tracking still work. The boundary file could not be loaded.'
     );
   }
 }
-function init(){
-  if(!window.L||!window.supabase||!window.V4B_SUPABASE_URL||!window.V4B_SUPABASE_KEY){
-    $('gps').innerHTML='<b>Setup issue.</b>Map or Supabase configuration did not load.';
-    return;
-  }
 
-  try{
-    sb=supabase.createClient(
-      String(window.V4B_SUPABASE_URL).trim(),
-      String(window.V4B_SUPABASE_KEY).trim()
-    );
-  }catch(e){
-    $('gps').innerHTML='<b>Setup issue.</b>'+e.message;
-    return;
-  }
+function dist(a, b){
+  const radius = 6371000;
+  const radians = Math.PI / 180;
 
-  map=L.map('map').setView([38.19370,-85.56637],12);
+  const latA = a.lat * radians;
+  const latB = b.lat * radians;
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:19,
-    attribution:'© OpenStreetMap contributors'
-  }).addTo(map);
+  const deltaLat = (b.lat - a.lat) * radians;
+  const deltaLng = (b.lng - a.lng) * radians;
 
-  routeLine=L.polyline([],{color:'#ff6575',weight:5}).addTo(map);
-  deliveryLayer=L.layerGroup().addTo(map);
-loadCampaignBoundary();
-  map.on('click',e=>{
-    chosen=e.latlng;
-    if(chosenMarker)chosenMarker.remove();
-    chosenMarker=L.marker(chosen,{icon:dot('#ffc44d')}).addTo(map);
-    $('selection').textContent='Selected location. Now choose Delivered, Partial, Not delivered, or Skipped, then tap Save.';
-  });
+  const value =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(latA) *
+      Math.cos(latB) *
+      Math.sin(deltaLng / 2) ** 2;
 
-  setTimeout(()=>map.invalidateSize(),500);
-  loadAll();
-  subscribe();
-}
-
-function dist(a,b){
-  let R=6371000,q=Math.PI/180,la=a.lat*q,lb=b.lat*q;
-  let dl=(b.lat-a.lat)*q,doa=(b.lng-a.lng)*q;
-  let h=Math.sin(dl/2)**2+Math.cos(la)*Math.cos(lb)*Math.sin(doa/2)**2;
-  return 2*R*Math.asin(Math.sqrt(h));
+  return 2 * radius * Math.asin(Math.sqrt(value));
 }
 
 async function worker(){
-  let name=$('name').value.trim()||localStorage.v4bName||'Field Distributor';
-  $('name').value=name;
-  localStorage.v4bName=name;
+  const name =
+    $('name').value.trim() ||
+    localStorage.v4bName ||
+    'Field Distributor';
 
-  if(workerId)return workerId;
+  $('name').value = name;
+  localStorage.v4bName = name;
 
-  let{data,error}=await sb
+  if(workerId){
+    return workerId;
+  }
+
+  const result = await sb
     .from('v4b_workers')
     .insert({
       campaign:CAMPAIGN,
       display_name:name,
-      mode,
+      mode:mode,
       tracking_state:'stopped'
     })
     .select()
     .single();
 
-  if(error)throw error;
+  if(result.error){
+    throw result.error;
+  }
 
-  workerId=data.id;
-  localStorage.v4bWorkerId=workerId;
+  workerId = result.data.id;
+  localStorage.v4bWorkerId = workerId;
+
   return workerId;
 }
 
-async function update(fields){
-  let id=await worker();
+async function updateWorker(fields){
+  const id = await worker();
 
-  let{error}=await sb
+  const result = await sb
     .from('v4b_workers')
     .update({
       ...fields,
-      display_name:$('name').value.trim()||'Field Distributor',
-      mode,
+      display_name:$('name').value.trim() || 'Field Distributor',
+      mode:mode,
       last_seen:new Date().toISOString()
     })
-    .eq('id',id);
+    .eq('id', id);
 
-  if(error)throw error;
+  if(result.error){
+    throw result.error;
+  }
 }
 
 async function getOrCreateActiveRoute(){
-  let id=await worker();
+  const id = await worker();
 
   if(activeRouteId){
-    let{data,error}=await sb
+    const existing = await sb
       .from('v4b_routes')
       .select('id,ended_at')
-      .eq('id',activeRouteId)
-      .eq('worker_id',id)
+      .eq('id', activeRouteId)
+      .eq('worker_id', id)
       .maybeSingle();
 
-    if(error)throw error;
+    if(existing.error){
+      throw existing.error;
+    }
 
-    if(data && !data.ended_at){
+    if(existing.data && !existing.data.ended_at){
       return activeRouteId;
     }
 
-    activeRouteId=null;
+    activeRouteId = null;
     localStorage.removeItem('v4bActiveRouteId');
   }
 
-  let{data,error}=await sb
+  const created = await sb
     .from('v4b_routes')
     .insert({
       campaign:CAMPAIGN,
       worker_id:id,
-      mode,
+      mode:mode,
       started_at:new Date().toISOString()
     })
     .select()
     .single();
 
-  if(error)throw error;
+  if(created.error){
+    throw created.error;
+  }
 
-  activeRouteId=data.id;
-  localStorage.v4bActiveRouteId=activeRouteId;
+  activeRouteId = created.data.id;
+  localStorage.v4bActiveRouteId = activeRouteId;
+
   return activeRouteId;
 }
-function pointInRing(lng,lat,ring){
-  let inside=false;
 
-  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
-    const xi=ring[i][0];
-    const yi=ring[i][1];
-    const xj=ring[j][0];
-    const yj=ring[j][1];
-
-    const crosses=
-      ((yi>lat)!==(yj>lat)) &&
-      (lng<((xj-xi)*(lat-yi))/(yj-yi)+xi);
-
-    if(crosses)inside=!inside;
-  }
-
-  return inside;
-}
-
-function pointInPolygonCoordinates(lng,lat,coordinates){
-  if(!coordinates||!coordinates.length)return false;
-
-  if(!pointInRing(lng,lat,coordinates[0]))return false;
-
-  for(let i=1;i<coordinates.length;i++){
-    if(pointInRing(lng,lat,coordinates[i]))return false;
-  }
-
-  return true;
-}
-
-function isInsideCampaignBoundary(lat,lng){
-  if(!boundaryGeoJson||!boundaryGeoJson.features){
-    return null;
-  }
-
-  return boundaryGeoJson.features.some(feature=>{
-    const geometry=feature.geometry;
-
-    if(!geometry)return false;
-
-    if(geometry.type==='Polygon'){
-      return pointInPolygonCoordinates(
-        lng,
-        lat,
-        geometry.coordinates
-      );
-    }
-
-    if(geometry.type==='MultiPolygon'){
-      return geometry.coordinates.some(polygon=>{
-        return pointInPolygonCoordinates(
-          lng,
-          lat,
-          polygon
-        );
-      });
-    }
-
-    return false;
-  });
-}
-
-function setCurrentBoundaryState(inside){
-  if(inside===null){
-    setBoundaryStatus(
-      'loading',
-      'Checking campaign boundary…',
-      'Waiting for the city-limits outline to finish loading.'
-    );
-    return;
-  }
-
-  if(inside){
-    setBoundaryStatus(
-      'ready',
-      'Inside campaign area',
-      'You are inside the Jeffersontown City Limits campaign boundary.'
-    );
-    return;
-  }
-
-  setBoundaryStatus(
-    'error',
-    'Outside campaign area',
-    'You are outside the Jeffersontown City Limits boundary. Return inside before distributing.'
+async function position(location){
+  const point = L.latLng(
+    location.coords.latitude,
+    location.coords.longitude
   );
-}
-async function position(p){
-  let ll=L.latLng(p.coords.latitude,p.coords.longitude);
-  
-const insideBoundary=isInsideCampaignBoundary(ll.lat,ll.lng);
 
-setCurrentBoundaryState(insideBoundary);
-  if(route.length)meters+=dist(route[route.length-1],ll);
+  if(route.length){
+    meters += dist(route[route.length - 1], point);
+  }
 
-  route.push(ll);
+  route.push(point);
   routeLine.setLatLngs(route);
 
   if(!myMarker){
-    myMarker=L.marker(ll,{icon:dot('#ff6575')}).addTo(map);
+    myMarker = L.marker(point,{
+      icon:dot('#ff6575')
+    }).addTo(map);
   }else{
-    myMarker.setLatLng(ll);
+    myMarker.setLatLng(point);
   }
 
-  map.panTo(ll);
-  $('miles').textContent=(meters/1609.344).toFixed(2)+' mi';
-  $('count').textContent=route.length;
+  map.panTo(point);
+
+  $('miles').textContent =
+    (meters / 1609.344).toFixed(2) + ' mi';
+
+  $('count').textContent = route.length;
 
   try{
-    let id=await worker();
-    let routeId=await getOrCreateActiveRoute();
+    const id = await worker();
+    const routeId = await getOrCreateActiveRoute();
 
-    await update({
-      lat:ll.lat,
-      lng:ll.lng,
-      accuracy:p.coords.accuracy,
+    await updateWorker({
+      lat:point.lat,
+      lng:point.lng,
+      accuracy:location.coords.accuracy,
       tracking_state:'tracking'
     });
 
-    let{error}=await sb
+    const saved = await sb
       .from('v4b_route_points')
       .insert({
         campaign:CAMPAIGN,
         worker_id:id,
         route_id:routeId,
-        lat:ll.lat,
-        lng:ll.lng,
-        accuracy:p.coords.accuracy,
-        inside_boundary:insideBoundary
+        lat:point.lat,
+        lng:point.lng,
+        accuracy:location.coords.accuracy,
+        inside_boundary:null
       });
 
-    if(error)throw error;
-  }catch(e){
-    $('gps').innerHTML='<b>Database error.</b>'+esc(e.message);
+    if(saved.error){
+      throw saved.error;
+    }
+  }catch(error){
+    $('gps').innerHTML =
+      '<b>Database error.</b>' +
+      esc(error.message);
   }
 }
 
-function geoErr(e){
-  $('gps').innerHTML='<b>Location unavailable.</b>'+
-    ({1:' Permission denied.',2:' Position unavailable.',3:' Location timed out.'}[e.code]||
-    ' Unable to access GPS.');
+function geoErr(error){
+  const messages = {
+    1:' Permission denied.',
+    2:' Position unavailable.',
+    3:' Location timed out.'
+  };
+
+  $('gps').innerHTML =
+    '<b>Location unavailable.</b>' +
+    (messages[error.code] || ' Unable to access GPS.');
 }
 
 function clock(){
-  let s=Math.floor((Date.now()-started)/1000);
-  $('time').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  if(!started) return;
+
+  const seconds = Math.floor(
+    (Date.now() - started) / 1000
+  );
+
+  $('time').textContent =
+    Math.floor(seconds / 60) +
+    ':' +
+    String(seconds % 60).padStart(2,'0');
 }
 
 async function start(){
@@ -512,230 +1072,331 @@ async function start(){
     await getOrCreateActiveRoute();
 
     if(!navigator.geolocation){
-      throw Error('GPS is not supported by this browser.');
+      throw new Error(
+        'GPS is not supported by this browser.'
+      );
     }
 
-    if(watch===null){
-      watch=navigator.geolocation.watchPosition(
+    if(watch === null){
+      watch = navigator.geolocation.watchPosition(
         position,
         geoErr,
-        {enableHighAccuracy:true,maximumAge:5000,timeout:15000}
+        {
+          enableHighAccuracy:true,
+          maximumAge:5000,
+          timeout:15000
+        }
       );
 
-      if(!started)started=Date.now();
-      if(!timer)timer=setInterval(clock,1000);
+      if(!started){
+        started = Date.now();
+      }
 
-      $('state').className='state live';
-      $('state').textContent='Tracking live';
-      $('gps').innerHTML='<b style="color:#bdf8d8">Tracking active.</b>Your location and route are syncing to the team map.';
+      if(!timer){
+        timer = setInterval(clock,1000);
+      }
+
+      $('state').className = 'state live';
+      $('state').textContent = 'Tracking live';
+
+      $('gps').innerHTML =
+        '<b style="color:#bdf8d8">Tracking active.</b>' +
+        'Your location and route are syncing to the team map.';
     }
-  }catch(e){
-    $('gps').innerHTML='<b>Cannot start.</b>'+esc(e.message);
+  }catch(error){
+    $('gps').innerHTML =
+      '<b>Cannot start.</b>' +
+      esc(error.message);
   }
 }
 
 async function pause(){
   try{
-    if(watch!==null){
+    if(watch !== null){
       navigator.geolocation.clearWatch(watch);
-      watch=null;
+      watch = null;
     }
 
-    await update({tracking_state:'paused'});
+    await updateWorker({
+      tracking_state:'paused'
+    });
 
-    $('state').className='state';
-    $('state').textContent='Tracking paused';
-    $('gps').innerHTML='<b>Tracking paused.</b>Press Start to continue the same route.';
-  }catch(e){
-    $('gps').innerHTML='<b>Could not pause.</b>'+esc(e.message);
+    $('state').className = 'state';
+    $('state').textContent = 'Tracking paused';
+
+    $('gps').innerHTML =
+      '<b>Tracking paused.</b>' +
+      'Press Start to continue the same route.';
+  }catch(error){
+    $('gps').innerHTML =
+      '<b>Could not pause.</b>' +
+      esc(error.message);
   }
 }
 
 async function stop(){
   try{
-    if(watch!==null){
+    if(watch !== null){
       navigator.geolocation.clearWatch(watch);
-      watch=null;
+      watch = null;
     }
 
     clearInterval(timer);
-    timer=null;
+    timer = null;
 
     if(activeRouteId){
-      let{count,error:countError}=await sb
+      const pointCount = await sb
         .from('v4b_route_points')
         .select('*',{count:'exact',head:true})
         .eq('route_id',activeRouteId);
 
-      if(countError)throw countError;
+      if(pointCount.error){
+        throw pointCount.error;
+      }
 
-      let{error:routeError}=await sb
+      const routeUpdate = await sb
         .from('v4b_routes')
         .update({
           ended_at:new Date().toISOString(),
           distance_meters:Math.round(meters),
-          gps_point_count:count||0
+          gps_point_count:pointCount.count || 0
         })
         .eq('id',activeRouteId);
 
-      if(routeError)throw routeError;
+      if(routeUpdate.error){
+        throw routeUpdate.error;
+      }
 
-      activeRouteId=null;
+      activeRouteId = null;
       localStorage.removeItem('v4bActiveRouteId');
     }
 
     if(workerId){
-      await update({tracking_state:'stopped'});
+      await updateWorker({
+        tracking_state:'stopped'
+      });
     }
 
-    started=null;
-    $('state').className='state';
-    $('state').textContent='Not tracking';
-    $('gps').innerHTML='<b>Route completed.</b>Your finished route has been saved for manager review.';
-  }catch(e){
-    $('gps').innerHTML='<b>Could not stop route.</b>'+esc(e.message);
+    started = null;
+
+    $('state').className = 'state';
+    $('state').textContent = 'Not tracking';
+
+    $('gps').innerHTML =
+      '<b>Route completed.</b>' +
+      'Your finished route has been saved for manager review.';
+  }catch(error){
+    $('gps').innerHTML =
+      '<b>Could not stop route.</b>' +
+      esc(error.message);
   }
 }
 
-async function delivery(){
+async function saveDelivery(){
   if(!chosen){
-    $('selection').textContent='Tap a map location first, then choose the delivery status.';
+    $('selection').textContent =
+      'Tap a map location first, then choose the delivery status.';
     return;
   }
 
   try{
-    let id=await worker();
-    let name=$('name').value.trim()||'Field Distributor';
+    const id = await worker();
 
-    let{error}=await sb
+    const saved = await sb
       .from('v4b_delivery_entries')
       .insert({
         campaign:CAMPAIGN,
         worker_id:id,
-        worker_name:name,
+        worker_name:
+          $('name').value.trim() || 'Field Distributor',
         lat:chosen.lat,
         lng:chosen.lng,
         delivery_status:status,
         note:$('note').value.trim()
       });
 
-    if(error)throw error;
+    if(saved.error){
+      throw saved.error;
+    }
 
-    $('note').value='';
-    $('selection').textContent='Saved '+status+'. Tap another map location for the next delivery status.';
+    $('note').value = '';
+
+    $('selection').textContent =
+      'Saved ' + status +
+      '. Tap another map location for the next delivery status.';
+
     loadDeliveries();
-  }catch(e){
-    $('selection').textContent='Could not save: '+e.message;
+  }catch(error){
+    $('selection').textContent =
+      'Could not save: ' + error.message;
   }
 }
 
 async function loadWorkers(){
-  let{data,error}=await sb
+  const result = await sb
     .from('v4b_workers')
     .select('*')
     .eq('campaign',CAMPAIGN)
     .order('last_seen',{ascending:false});
 
-  if(error)return;
+  if(result.error){
+    console.error(result.error);
+    return;
+  }
 
-  $('workers').innerHTML=(data||[]).map(w=>
-    '<div class="worker">'+
-      '<div class="avatar" style="background:'+col(w.id)+'33;color:'+col(w.id)+'">'+
-        esc((w.display_name||'?').slice(0,2).toUpperCase())+
-      '</div>'+
-      '<div><b>'+esc(w.display_name)+'</b><small>'+esc(w.mode)+' · '+esc(w.tracking_state)+'</small></div>'+
-      '<span class="tag">'+
-        (w.tracking_state==='tracking'?'LIVE':esc(w.tracking_state).toUpperCase())+
-      '</span>'+
-    '</div>'
-  ).join('')||'<p class="muted">No team members yet.</p>';
+  const workers = result.data || [];
 
-  (data||[]).forEach(w=>{
-    if(w.id===workerId||w.lat==null)return;
+  $('workers').innerHTML = workers.map(worker => {
+    const color = col(worker.id);
 
-    let pt=L.latLng(w.lat,w.lng);
+    return (
+      '<div class="worker">' +
+        '<div class="avatar" style="background:'+color+'33;color:'+color+'">' +
+          esc((worker.display_name || '?').slice(0,2).toUpperCase()) +
+        '</div>' +
+        '<div>' +
+          '<b>'+esc(worker.display_name)+'</b>' +
+          '<small>'+esc(worker.mode)+' · '+esc(worker.tracking_state)+'</small>' +
+        '</div>' +
+        '<span class="tag">' +
+          (
+            worker.tracking_state === 'tracking'
+              ? 'LIVE'
+              : esc(worker.tracking_state).toUpperCase()
+          ) +
+        '</span>' +
+      '</div>'
+    );
+  }).join('') || '<p class="muted">No team members yet.</p>';
 
-    if(!teamMarkers[w.id]){
-      teamMarkers[w.id]=L.marker(pt,{icon:dot(col(w.id))})
-        .addTo(map)
-        .bindPopup('<b>'+esc(w.display_name)+'</b>');
+  workers.forEach(worker => {
+    if(worker.id === workerId) return;
+    if(worker.lat === null || worker.lng === null) return;
+
+    const point = L.latLng(worker.lat,worker.lng);
+
+    if(!teamMarkers[worker.id]){
+      teamMarkers[worker.id] = L.marker(point,{
+        icon:dot(col(worker.id))
+      })
+      .addTo(map)
+      .bindPopup('<b>'+esc(worker.display_name)+'</b>');
     }else{
-      teamMarkers[w.id].setLatLng(pt);
+      teamMarkers[worker.id].setLatLng(point);
     }
   });
 }
 
 async function loadRoutes(){
-  let{data,error}=await sb
+  const result = await sb
     .from('v4b_route_points')
-    .select('*')
+    .select('worker_id,route_id,lat,lng,recorded_at')
     .eq('campaign',CAMPAIGN)
     .order('recorded_at',{ascending:true})
     .limit(5000);
 
-  if(error)return;
+  if(result.error){
+    console.error('Could not load routes:',result.error);
+    return;
+  }
 
-  let groups={};
+  const groups = {};
 
-  (data||[]).forEach(p=>{
-    if(p.worker_id!==workerId){
-      let lineKey=p.route_id||p.worker_id;
-      (groups[lineKey]??=[]).push([p.lat,p.lng]);
+  (result.data || []).forEach(point => {
+    if(point.worker_id === workerId) return;
+
+    const lineId = point.route_id || point.worker_id;
+
+    if(!groups[lineId]){
+      groups[lineId] = {
+        workerId:point.worker_id,
+        points:[]
+      };
     }
+
+    groups[lineId].points.push([
+      point.lat,
+      point.lng
+    ]);
   });
 
-  Object.entries(groups).forEach(([id,pts])=>{
-    if(!teamLines[id]){
-      teamLines[id]=L.polyline(pts,{
-        color:col(id),
+  Object.entries(groups).forEach(([lineId,group]) => {
+    const color = col(group.workerId);
+
+    if(!teamLines[lineId]){
+      teamLines[lineId] = L.polyline(group.points,{
+        color:color,
         weight:4,
         opacity:.72
       }).addTo(map);
     }else{
-      teamLines[id].setLatLngs(pts);
+      teamLines[lineId].setLatLngs(group.points);
+      teamLines[lineId].setStyle({
+        color:color,
+        opacity:.72
+      });
     }
   });
 }
 
 async function loadDeliveries(){
-  let{data,error}=await sb
+  const result = await sb
     .from('v4b_delivery_entries')
     .select('*')
     .eq('campaign',CAMPAIGN)
     .order('created_at',{ascending:false})
     .limit(50);
 
-  if(error)return;
+  if(result.error){
+    console.error(result.error);
+    return;
+  }
 
-  $('log').innerHTML=(data||[]).map(x=>
-    '<div class="entry">'+
-      '<b>'+esc(x.worker_name)+'</b>'+
-      '<span class="badge '+x.delivery_status.replace(' ','-')+'">'+esc(x.delivery_status)+'</span>'+
-      '<small>'+esc(x.note||'No note')+' · '+
-      new Date(x.created_at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+
-      '</small>'+
-    '</div>'
-  ).join('')||'<p class="muted">No delivery records yet.</p>';
+  const deliveries = result.data || [];
+
+  $('log').innerHTML = deliveries.map(entry => {
+    return (
+      '<div class="entry">' +
+        '<b>'+esc(entry.worker_name)+'</b>' +
+        '<span class="badge '+entry.delivery_status.replace(' ','-')+'">' +
+          esc(entry.delivery_status) +
+        '</span>' +
+        '<small>' +
+          esc(entry.note || 'No note') +
+          ' · ' +
+          new Date(entry.created_at).toLocaleTimeString([],{
+            hour:'numeric',
+            minute:'2-digit'
+          }) +
+        '</small>' +
+      '</div>'
+    );
+  }).join('') || '<p class="muted">No delivery records yet.</p>';
 
   deliveryLayer.clearLayers();
 
-  (data||[]).forEach(x=>{
-    L.circleMarker([x.lat,x.lng],{
+  deliveries.forEach(entry => {
+    const fillColor =
+      entry.delivery_status === 'Delivered'
+        ? '#36df91'
+        : entry.delivery_status === 'Partial'
+          ? '#ffc44d'
+          : entry.delivery_status === 'Not delivered'
+            ? '#ff6575'
+            : '#bd87ff';
+
+    L.circleMarker([entry.lat,entry.lng],{
       radius:7,
       color:'#fff',
       weight:2,
-      fillColor:
-        x.delivery_status==='Delivered' ? '#36df91' :
-        x.delivery_status==='Partial' ? '#ffc44d' :
-        x.delivery_status==='Not delivered' ? '#ff6575' :
-        '#bd87ff',
+      fillColor:fillColor,
       fillOpacity:1
     })
     .addTo(deliveryLayer)
     .bindPopup(
-      '<b>'+esc(x.delivery_status)+'</b><br>'+
-      esc(x.worker_name)+'<br>'+
-      esc(x.note||'')
+      '<b>'+esc(entry.delivery_status)+'</b><br>' +
+      esc(entry.worker_name)+'<br>' +
+      esc(entry.note || '')
     );
   });
 }
@@ -748,47 +1409,168 @@ function loadAll(){
 
 function subscribe(){
   sb.channel('vote4bowdy-live')
-    .on('postgres_changes',{event:'*',schema:'public',table:'v4b_workers'},loadWorkers)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_route_points'},loadRoutes)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'v4b_delivery_entries'},loadDeliveries)
+    .on(
+      'postgres_changes',
+      {
+        event:'*',
+        schema:'public',
+        table:'v4b_workers'
+      },
+      loadWorkers
+    )
+    .on(
+      'postgres_changes',
+      {
+        event:'INSERT',
+        schema:'public',
+        table:'v4b_route_points'
+      },
+      loadRoutes
+    )
+    .on(
+      'postgres_changes',
+      {
+        event:'INSERT',
+        schema:'public',
+        table:'v4b_delivery_entries'
+      },
+      loadDeliveries
+    )
     .subscribe();
 }
 
-$('name').value=localStorage.v4bName||'';
+function init(){
+  if(
+    !window.L ||
+    !window.supabase ||
+    !window.V4B_SUPABASE_URL ||
+    !window.V4B_SUPABASE_KEY
+  ){
+    $('gps').innerHTML =
+      '<b>Setup issue.</b>' +
+      'Map or Supabase configuration did not load.';
+    return;
+  }
 
-$('saveName').onclick=()=>{
-  localStorage.v4bName=$('name').value.trim();
-  if(workerId)update({});
+  try{
+    sb = supabase.createClient(
+      String(window.V4B_SUPABASE_URL).trim(),
+      String(window.V4B_SUPABASE_KEY).trim()
+    );
+  }catch(error){
+    $('gps').innerHTML =
+      '<b>Setup issue.</b>' +
+      esc(error.message);
+    return;
+  }
+
+  map = L.map('map').setView(
+    [38.19370,-85.56637],
+    12
+  );
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom:19,
+      attribution:'© OpenStreetMap contributors'
+    }
+  ).addTo(map);
+
+  routeLine = L.polyline([],{
+    color:'#ff6575',
+    weight:5
+  }).addTo(map);
+
+  deliveryLayer = L.layerGroup().addTo(map);
+
+  map.on('click',event => {
+    chosen = event.latlng;
+
+    if(chosenMarker){
+      chosenMarker.remove();
+    }
+
+    chosenMarker = L.marker(chosen,{
+      icon:dot('#ffc44d')
+    }).addTo(map);
+
+    $('selection').textContent =
+      'Selected location. Now choose Delivered, Partial, Not delivered, or Skipped, then tap Save.';
+  });
+
+  loadCampaignBoundary();
+
+  setTimeout(() => {
+    map.invalidateSize();
+  },500);
+
+  loadAll();
+  subscribe();
+}
+
+$('name').value = localStorage.v4bName || '';
+
+$('saveName').onclick = () => {
+  localStorage.v4bName = $('name').value.trim();
+
+  if(workerId){
+    updateWorker({}).catch(error => {
+      console.error(error);
+    });
+  }
 };
 
 for(const id of ['walk','drive']){
-  $(id).onclick=()=>{
-    mode=id==='walk'?'walking':'driving';
-    localStorage.v4bMode=mode;
-    $('walk').classList.toggle('active',id==='walk');
-    $('drive').classList.toggle('active',id==='drive');
+  $(id).onclick = () => {
+    mode = id === 'walk' ? 'walking' : 'driving';
+    localStorage.v4bMode = mode;
 
-    if(workerId)update({mode});
+    $('walk').classList.toggle(
+      'active',
+      mode === 'walking'
+    );
+
+    $('drive').classList.toggle(
+      'active',
+      mode === 'driving'
+    );
+
+    if(workerId){
+      updateWorker({mode}).catch(error => {
+        console.error(error);
+      });
+    }
   };
 }
 
-$('walk').classList.toggle('active',mode==='walking');
-$('drive').classList.toggle('active',mode==='driving');
+$('walk').classList.toggle(
+  'active',
+  mode === 'walking'
+);
 
-$('start').onclick=start;
-$('pause').onclick=pause;
-$('stop').onclick=stop;
+$('drive').classList.toggle(
+  'active',
+  mode === 'driving'
+);
 
-document.querySelectorAll('[data-s]').forEach(b=>{
-  b.onclick=()=>{
-    status=b.dataset.s;
-    document.querySelectorAll('[data-s]').forEach(x=>{
-      x.classList.toggle('selected',x===b);
+$('start').onclick = start;
+$('pause').onclick = pause;
+$('stop').onclick = stop;
+$('saveDelivery').onclick = saveDelivery;
+
+document.querySelectorAll('[data-s]').forEach(button => {
+  button.onclick = () => {
+    status = button.dataset.s;
+
+    document.querySelectorAll('[data-s]').forEach(item => {
+      item.classList.toggle(
+        'selected',
+        item === button
+      );
     });
   };
 });
-
-$('saveDelivery').onclick=delivery;
 
 init();
 </script>
